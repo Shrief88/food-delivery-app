@@ -7,17 +7,19 @@ import {
   CarFront,
   Pizza,
   Beef,
-  Soup,
+  Soup
 } from "lucide-react";
 
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
-import deliveryGuy from "../assets/images/hero.png";
+import deliveryGirl from "../assets/images/hero.png";
 import fastFood from "../assets/images/fastfood.svg";
 import Category from "../components/ui/Category";
 import Perk from "../components/ui/Perk";
 import serviceOne from "../assets/images/service-01.png";
 import servicsTwo from "../assets/images/service-02.png";
 import serviceThree from "../assets/images/service-03.png";
+import deliveryGuy from "../assets/images/location.png";
+import Info from "../components/ui/Info";
 
 const Home = () => {
   return (
@@ -37,7 +39,7 @@ const Home = () => {
               </h1>
             </div>
             <div>
-              <p className="text-muted-foreground max-w-prose  mt-10">
+              <p className="text-muted-foreground max-w-prose mt-10">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui
                 magni delectus tenetur autem, sint veritatis!
               </p>
@@ -82,7 +84,7 @@ const Home = () => {
           </div>
 
           <div className="hidden lg:block lg:col-span-1">
-            <img src={deliveryGuy} alt="delivery-guy" className="w-full" />
+            <img src={deliveryGirl} alt="delivery-guy" className="w-full" />
           </div>
         </div>
       </MaxWidthWrapper>
@@ -97,14 +99,14 @@ const Home = () => {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper>
-        <div className="flex flex-col gap-2 mt-16">
+        <div className="flex flex-col gap-4 mt-14">
           <p className="text-2xl sm:4xl tracking-tight text-primary">
             what we offer
           </p>
-          <h1 className="text-4xl tracking-tight sm:text-5xl">
+          <h1 className="text-3xl tracking-tight sm:text-4xl">
             Just sit back at home
           </h1>
-          <h1 className="text-4xl tracking-tight sm:text-5xl">
+          <h1 className="text-3xl tracking-tight sm:text-4xl">
             We will <span className="text-primary">take care</span>
           </h1>
           <div className="mt-5 flex flex-col gap-2 items-center">
@@ -114,14 +116,14 @@ const Home = () => {
             </p>
             <p className="text-sm sm:text-lg text-muted-foreground max-w-prose">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam,
-              eius.{" "}
+              eius.
             </p>
           </div>
         </div>
       </MaxWidthWrapper>
 
       <MaxWidthWrapper>
-        <div className="mt-16 grid grid-cols-1 gap-y-12 sm:grid-col2-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
+        <div className="mt-14 grid grid-cols-1 gap-y-12 sm:grid-col2-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
           <Perk
             name="Quick Delivery"
             description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui magni delectus tenetur autem, sint veritatis!"
@@ -137,6 +139,39 @@ const Home = () => {
             description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui magni delectus tenetur autem, sint veritatis!"
             img={serviceThree}
           />
+        </div>
+      </MaxWidthWrapper>
+
+      <MaxWidthWrapper className="px-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 mt-14 text-left   items-center">
+          <div>
+            <img src={deliveryGuy} />
+          </div>
+          <div>
+            <h1 className="text-4xl tracking-tight">
+              Why <span className="text-primary">Tasty Treat</span>
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-8">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum,
+              minus. Tempora reprehenderit a corporis velit, laboriosam vitae
+              ullam, repellat illo sequi odio esse iste fugiat dolor, optio
+              incidunt eligendi deleniti!
+            </p>
+            <div className="mt-7 flex flex-col gap-7">
+              <Info
+                title="Fresh and tasty foods"
+                description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, voluptatibus."
+              />
+              <Info
+                title="Quality support"
+                description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, voluptatibus."
+              />
+              <Info
+                title="Order from any location"
+                description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, voluptatibus."
+              />
+            </div>
+          </div>
         </div>
       </MaxWidthWrapper>
     </div>
