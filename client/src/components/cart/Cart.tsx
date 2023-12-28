@@ -13,10 +13,13 @@ import { NavLink } from "react-router-dom";
 import emptyCard from "../../assets/images/emptyCart.svg";
 import { buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { useAppDispatch } from "@/stateStore";
+import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
 
 const Cart = () => {
   //mocing data untill we build our server
   const itemsCount = 0;
+  const dispatch = useAppDispatch();
 
   return (
     <Sheet>
@@ -30,7 +33,7 @@ const Cart = () => {
         </SheetHeader>
         <SheetDescription className="h-full">
           {itemsCount > 0 ? null : (
-            <div className="flex flex-col items-center justify-center h-full">
+            <div className="flex flex-col items-center justify-center h-full text-center">
               <img src={emptyCard} alt="emptyCard" />
               <p className="text-lg font-bold">Your cart is empty</p>
               <p>Looks like your haven't made your choice yet...</p>
@@ -41,6 +44,11 @@ const Cart = () => {
                   "mt-3",
                   buttonVariants({ variant: "destructive" })
                 )}
+                onClick={() =>
+                  dispatch(
+                    activeNavItemServices.actions.SetActiveNavItem("/food")
+                  )
+                }
               >
                 <SheetClose>Start your order</SheetClose>
               </NavLink>

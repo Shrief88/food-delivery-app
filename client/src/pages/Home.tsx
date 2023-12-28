@@ -7,7 +7,7 @@ import {
   CarFront,
   Pizza,
   Beef,
-  Soup
+  Soup,
 } from "lucide-react";
 
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
@@ -20,8 +20,12 @@ import servicsTwo from "../assets/images/service-02.png";
 import serviceThree from "../assets/images/service-03.png";
 import deliveryGuy from "../assets/images/location.png";
 import Info from "../components/home/Info";
+import { useAppDispatch } from "@/stateStore";
+import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="py-20 mx-auto text-center flex flex-col items-center ">
       <MaxWidthWrapper>
@@ -45,7 +49,15 @@ const Home = () => {
               </p>
             </div>
             <div className="flex gap-10 mt-10 justify-center">
-              <NavLink className={buttonVariants()} to={"/checkout"}>
+              <NavLink
+                className={buttonVariants()}
+                to={"/checkout"}
+                onClick={() =>
+                  dispatch(
+                    activeNavItemServices.actions.SetActiveNavItem("/checkout")
+                  )
+                }
+              >
                 Order now {<ChevronRight />}
               </NavLink>
               <NavLink
@@ -53,6 +65,11 @@ const Home = () => {
                   buttonVariants({ variant: "outline" }),
                   "text-primary"
                 )}
+                onClick={() =>
+                  dispatch(
+                    activeNavItemServices.actions.SetActiveNavItem("/food")
+                  )
+                }
                 to={"/food"}
               >
                 See all foods

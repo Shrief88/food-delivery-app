@@ -1,23 +1,25 @@
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
+import { useAppDispatch, useTypedSelector } from "@/stateStore";
 import { NavLink } from "react-router-dom";
 
-
 const NavItems = () => {
-  const [activeLink, setActiveLink] = useState(window.location.pathname);
+  const dispatch = useAppDispatch();
+  const currentActiveNavItem = useTypedSelector(
+    (state) => state.activeNavItem.activeNavItem
+  );
 
-  const handleSetActiveLink = (link: string) => {
-    setActiveLink(link);
-  };
   return (
     <div className="flex gap-4 h-full items-center">
       <NavLink
         to="/"
         className={cn(
           "hover:text-primary",
-          activeLink === "/" && "text-primary"
+          currentActiveNavItem === "/" && "text-primary"
         )}
-        onClick={() => handleSetActiveLink("/")}
+        onClick={() =>
+          dispatch(activeNavItemServices.actions.SetActiveNavItem("/"))
+        }
       >
         Home
       </NavLink>
@@ -25,19 +27,35 @@ const NavItems = () => {
         to="/food"
         className={cn(
           "hover:text-primary",
-          activeLink === "/food" && "text-primary"
+          currentActiveNavItem === "/food" && "text-primary"
         )}
-        onClick={() => handleSetActiveLink("/food")}
+        onClick={() =>
+          dispatch(activeNavItemServices.actions.SetActiveNavItem("/food"))
+        }
       >
         Food
+      </NavLink>
+      <NavLink
+        to="/checkout"
+        className={cn(
+          "hover:text-primary",
+          currentActiveNavItem === "/checkout" && "text-primary"
+        )}
+        onClick={() =>
+          dispatch(activeNavItemServices.actions.SetActiveNavItem("/checkout"))
+        }
+      >
+        Checkout
       </NavLink>
       <NavLink
         to="/contact"
         className={cn(
           "hover:text-primary",
-          activeLink === "/contact" && "text-primary"
+          currentActiveNavItem === "/contact" && "text-primary"
         )}
-        onClick={() => handleSetActiveLink("/contact")}
+        onClick={() =>
+          dispatch(activeNavItemServices.actions.SetActiveNavItem("/contact"))
+        }
       >
         Contact
       </NavLink>
