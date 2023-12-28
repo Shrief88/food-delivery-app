@@ -13,13 +13,13 @@ import {
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
 import deliveryGirl from "../assets/images/hero.png";
 import fastFood from "../assets/images/fastfood.svg";
-import Category from "../components/ui/Category";
-import Perk from "../components/ui/Perk";
+import Category from "../components/home/Category";
+import Perk from "../components/home/Perk";
 import serviceOne from "../assets/images/service-01.png";
 import servicsTwo from "../assets/images/service-02.png";
 import serviceThree from "../assets/images/service-03.png";
 import deliveryGuy from "../assets/images/location.png";
-import Info from "../components/ui/Info";
+import Info from "../components/home/Info";
 
 const Home = () => {
   return (
