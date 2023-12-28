@@ -6,6 +6,7 @@ import logo from "../../assets/images/res-logo.png";
 import NavItems from "./NavItems";
 import { buttonVariants } from "../ui/button";
 import Cart from "../cart/Cart";
+import NavItem from "./NavItem";
 
 const Navbar = () => {
   const user = null;
@@ -29,15 +30,11 @@ const Navbar = () => {
               <div className="flex items-center">
                 <div className="flex flex-1 items-center">
                   {user ? null : (
-                    <p className={buttonVariants({ variant: "ghost" })}>
-                      Login
-                    </p>
+                    <NavItem name="Login" link="/login" customStyle = {buttonVariants({ variant: 'ghost'})} />
                   )}
                   <Separator orientation="vertical" />
                   {user ? null : (
-                    <p className={buttonVariants({ variant: "ghost" })}>
-                      Register
-                    </p>
+                    <NavItem name="Register" link="/signup" customStyle = {buttonVariants({ variant: 'ghost'})} />
                   )}
                   <Separator orientation="vertical" />
                   <Cart />

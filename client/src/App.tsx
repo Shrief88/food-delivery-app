@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Food from "./pages/Food";
 import Checkout from "./pages/Checkout";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import Layout from "./components/ui/Layout";
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/food" element={<Food />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
               </Route>
             </Routes>
           </div>
