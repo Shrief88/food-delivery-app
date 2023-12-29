@@ -5,6 +5,7 @@ import morgan from "morgan";
 import env from "../src/config/validateEnv";
 import errorMiddleware from "./middleware/errorMiddleware";
 import categoryRouter from "./routes/category";
+import mealRouter from "./routes/meal";
 
 const app = express();
 
@@ -20,6 +21,7 @@ if (env.isDevelopment) {
 app.use(express.json());
 
 app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/meal", mealRouter);
 app.get("/", (req, res) => {
   res.send("Welcome to the API!");
 });
