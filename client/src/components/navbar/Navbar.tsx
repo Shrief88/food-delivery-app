@@ -26,7 +26,7 @@ const Navbar = () => {
               <div className="hidden md:block md:self-stretch">
                 <NavItems />
               </div>
-
+              {/* TODO: ADD MOBILE NAVBAR */}
               <div className="flex items-center">
                 <div className="flex flex-1 items-center">
                   {user ? null : (
