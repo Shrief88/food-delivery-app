@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import Autoplay from "embla-carousel-autoplay";
+
 import {
   ChevronRight,
   ShieldCheck,
@@ -9,19 +9,34 @@ import {
   Beef,
   Soup,
 } from "lucide-react";
-
-import MaxWidthWrapper from "../components/MaxWidthWrapper";
-import deliveryGirl from "../assets/images/hero.png";
 import fastFood from "../assets/images/fastfood.svg";
-import Category from "../components/home/Category";
-import Perk from "../components/home/Perk";
+
+import deliveryGirl from "../assets/images/hero.png";
 import serviceOne from "../assets/images/service-01.png";
 import servicsTwo from "../assets/images/service-02.png";
 import serviceThree from "../assets/images/service-03.png";
 import deliveryGuy from "../assets/images/location.png";
-import Info from "../components/home/Info";
+import network from "../assets/images/network.png";
+import avaterOne from "../assets/images/ava-1.jpg";
+import avaterTwo from "../assets/images/ava-2.jpg";
+import avaterThree from "../assets/images/ava-3.jpg";
+
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { useAppDispatch } from "@/stateStore";
 import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
+
+import MaxWidthWrapper from "../components/MaxWidthWrapper";
+import Category from "../components/home/Category";
+import Perk from "../components/home/Perk";
+import Info from "../components/home/Info";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -160,9 +175,9 @@ const Home = () => {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="px-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 mt-14 text-left   items-center">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 mt-14 text-left items-center">
           <div>
-            <img src={deliveryGuy} />
+            <img src={deliveryGuy} className="w-full"/>
           </div>
           <div>
             <h1 className="text-4xl tracking-tight">
@@ -188,6 +203,91 @@ const Home = () => {
                 description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, voluptatibus."
               />
             </div>
+          </div>
+        </div>
+      </MaxWidthWrapper>
+
+      <MaxWidthWrapper className="px-5">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 mt-14 text-left items-center">
+          <div className="space-y-8">
+            <h1 className="text-3xl sm:text-4xl tracking-tight">
+              What our <span className="text-primary">customers</span> are
+              saying
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground text-justify">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Distinctio quasi qui minus quos sit perspiciatis inventore quis
+              provident placeat fugiat!
+            </p>
+            <Carousel
+              opts={{ align: "start", loop: true }}
+              plugins={[
+                Autoplay({
+                  delay: 2000,
+                  stopOnInteraction: true,
+                }),
+              ]}
+            >
+              <CarouselContent>
+                <CarouselItem>
+                  <p className="text-sm sm:text-base text-muted-foreground font-Istok">
+                    "Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Perferendis atque, quam minus totam maiores laborum! Impedit
+                    consectetur illum aliquid odit. Odit dolore ipsum quod
+                    debitis nostrum necessitatibus quis dolorem quas!"
+                  </p>
+                  <div className="mt-5 flex gap-5 items-center">
+                    <Avatar>
+                      <AvatarImage
+                        src={avaterOne}
+                        className="rounded object-cover"
+                      />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <p>Jhon Doe</p>
+                  </div>
+                </CarouselItem>
+                <CarouselItem>
+                  <p className="text-sm sm:text-base text-muted-foreground font-Istok">
+                    "Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Perferendis atque, quam minus totam maiores laborum! Impedit
+                    consectetur illum aliquid odit. Odit dolore ipsum quod
+                    debitis nostrum necessitatibus quis dolorem quas!"
+                  </p>
+                  <div className="mt-5 flex gap-5 items-center">
+                    <Avatar>
+                      <AvatarImage
+                        src={avaterTwo}
+                        className="rounded object-cover"
+                      />
+                      <AvatarFallback>MM</AvatarFallback>
+                    </Avatar>
+                    <p>Mitchell March</p>
+                  </div>
+                </CarouselItem>
+                <CarouselItem>
+                  <p className="text-sm sm:text-base text-muted-foreground font-Istok">
+                    "Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Perferendis atque, quam minus totam maiores laborum! Impedit
+                    consectetur illum aliquid odit. Odit dolore ipsum quod
+                    debitis nostrum necessitatibus quis dolorem quas!"
+                  </p>
+                  <div className="mt-5 flex gap-8 items-center">
+                    <Avatar>
+                      <AvatarImage
+                        src={avaterThree}
+                        className="rounded object-cover"
+                      />
+                      <AvatarFallback>SC</AvatarFallback>
+                    </Avatar>
+                    <p>Steven Crock</p>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+            </Carousel>
+          </div>
+          <div>
+            <img src={network} />
           </div>
         </div>
       </MaxWidthWrapper>
