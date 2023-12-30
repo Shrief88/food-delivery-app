@@ -59,7 +59,7 @@ export const createMeal: RequestHandler = async (req, res, next) => {
 // @access Private [Admin, Manager]
 export const updateMeal: RequestHandler = async (req, res, next) => {
   try {
-    req.body.slug = slugify(req.body.name as string);
+    if (req.body.name) req.body.slug = slugify(req.body.name as string);
     const updatedMeal = await MealModel.findByIdAndUpdate(
       req.params.id,
       req.body as UpdateQuery<IMeal>,

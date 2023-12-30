@@ -21,9 +21,9 @@ const errorMiddleware = (
   }
 
   if (env.isProduction) {
-    res.send(statusCode).json({ message: errorMessage });
+    res.status(statusCode).json({ message: errorMessage });
   } else {
-    res.send(statusCode).json({ message: errorMessage, stack });
+    res.status(statusCode).json({ message: errorMessage, stack });
   }
 };
 

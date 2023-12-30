@@ -57,6 +57,7 @@ export const createMeal = [
     }
     return true;
   }),
+  validateMiddleware,
 ];
 
 export const updateMeal = [
@@ -100,6 +101,7 @@ export const updateMeal = [
     }
     return true;
   }),
+  validateMiddleware,
 ];
 
 export const deleteMeal = [

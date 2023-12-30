@@ -1,3 +1,5 @@
+import path from "path";
+
 import express, { type RequestHandler } from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -19,6 +21,9 @@ if (env.isDevelopment) {
 }
 
 app.use(express.json());
+
+// Set static folder for image
+app.use(express.static(path.join(__dirname, "..", "uploads")));
 
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/meal", mealRouter);

@@ -17,7 +17,7 @@ mealRouter.post(
   uploadImage("image"),
   validateImageExisting,
   mealValidator.createMeal,
-  resizeImage("Meal", "image"),
+  resizeImage("meal", "image"),
   mealHandler.createMeal,
 );
 
@@ -25,7 +25,7 @@ mealRouter.put(
   "/:id",
   uploadImage("image"),
   mealValidator.updateMeal,
-  resizeImage("Meal", "image"),
+  resizeImage("meal", "image"),
   mealHandler.updateMeal,
 );
 

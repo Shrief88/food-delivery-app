@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import returnImageUrl from "../utils/returnImageUrl";
 
 export interface IMeal extends mongoose.Document {
   name: string;
@@ -73,5 +74,13 @@ const mealSchema = new Schema<IMeal>(
     timestamps: true,
   },
 );
+
+mealSchema.post("init", function (doc) {
+  returnImageUrl(doc, "meal");
+});
+
+mealSchema.post("save", function (doc) {
+  returnImageUrl(doc, "meal");
+});
 
 export const MealModel = mongoose.model<IMeal>("Meal", mealSchema);

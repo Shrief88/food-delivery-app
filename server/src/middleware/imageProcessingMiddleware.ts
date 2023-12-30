@@ -19,5 +19,6 @@ export const resizeImage = (
         next(err);
       }
     }
+    next();
   };
 };
