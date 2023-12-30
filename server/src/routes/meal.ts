@@ -5,10 +5,13 @@ import * as mealHandler from "../handlers/meal";
 import { resizeImage } from "../middleware/imageProcessingMiddleware";
 import { uploadImage } from "../middleware/uploadImageMiddleware";
 import validateImageExisting from "../middleware/imageExistMiddlleware";
+import { setFilterObject } from "../middleware/categoryToMeal";
 
-const mealRouter = express.Router();
+const mealRouter = express.Router({
+  mergeParams: true,
+});
 
-mealRouter.get("/", mealHandler.getMeals);
+mealRouter.get("/", setFilterObject, mealHandler.getMeals);
 
 mealRouter.get("/:id", mealValidator.getMeal, mealHandler.getMeal);
 

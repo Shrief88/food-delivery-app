@@ -11,7 +11,10 @@ import ApiFeatures from "../utils/apiFeatures";
 export const getMeals: RequestHandler = async (req, res, next) => {
   try {
     const documentCount = await MealModel.estimatedDocumentCount();
-    const apiFeatures = new ApiFeatures(MealModel.find(), req.query)
+    const apiFeatures = new ApiFeatures(
+      MealModel.find(req.body.filterObject as object),
+      req.query,
+    )
       .filter()
       .sort()
       .fields()

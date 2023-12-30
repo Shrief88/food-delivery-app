@@ -2,6 +2,7 @@ import express from "express";
 
 import * as categoryValidator from "../validators/category";
 import * as categoryHandler from "../handlers/category";
+import mealRouter from "./meal";
 
 const categoryRouter = express.Router();
 
@@ -30,5 +31,7 @@ categoryRouter.delete(
   categoryValidator.deleteCategory,
   categoryHandler.deleteCategory,
 );
+
+categoryRouter.use("/:categoryId/meals", mealRouter);
 
 export default categoryRouter;
