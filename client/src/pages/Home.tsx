@@ -5,10 +5,10 @@ import {
   ShieldCheck,
   CarFront,
   Pizza,
-  Beef,
   Soup,
+  Croissant,
 } from "lucide-react";
-import fastFood from "../assets/images/fastfood.svg";
+import burger from "../assets/images/burger.svg";
 
 import deliveryGirl from "../assets/images/hero.png";
 import serviceOne from "../assets/images/service-01.png";
@@ -113,9 +113,9 @@ const Home = () => {
 
       <MaxWidthWrapper className="px-4">
         <div className="grid grid-cols-2 gap-4 mt-14 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-          <Category name="Fast Food" icon={fastFood} />
+          <Category name="Burger" icon={burger} />
           <Category name="Pizza" icon={Pizza} />
-          <Category name="Row Meat" icon={Beef} />
+          <Category name="Bread" icon={Croissant} />
           <Category name="Asian Food" icon={Soup} />
         </div>
       </MaxWidthWrapper>
