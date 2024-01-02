@@ -9,6 +9,7 @@ import errorMiddleware from "./middleware/errorMiddleware";
 import categoryRouter from "./routes/category";
 import mealRouter from "./routes/meal";
 import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/meal", mealRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
+
 app.get("/", (req, res) => {
   res.send("Welcome to the API!");
 });
