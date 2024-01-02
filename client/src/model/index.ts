@@ -9,7 +9,10 @@ export interface IMeal {
   sold: number;
   ratingAverage: number;
   ratingQuantity: number;
-  category: string;
+  category: {
+    _id: string;
+    name: string;
+  }
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,3 +36,4 @@ export interface ICategory {
   createdAt?: Date;
   updatedAt?: Date;
 }
+

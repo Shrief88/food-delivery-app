@@ -8,10 +8,10 @@ const SkeletonCard = () => {
         <Skeleton className="w-32 h-32 rounded-full" />
       </CardHeader>
       <CardContent>
-        <Skeleton className="h-4 flex-grow" mt-4 />
+        <Skeleton className="h-4 flex-grow mt-4" />
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Skeleton className="h-4 flex-grow" mt-4 />
+        <Skeleton className="h-4 flex-grow mt-4"  />
       </CardFooter>
     </Card>
   );

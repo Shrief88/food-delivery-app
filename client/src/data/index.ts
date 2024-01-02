@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GetMealsResults, ICategory } from "@/model";
+import { GetMealsResults, ICategory, IMeal } from "@/model";
 
 axios.defaults.baseURL = "http://localhost:3000/api/v1";
 axios.defaults.headers["Content-type"] = "application/json";
@@ -14,3 +14,6 @@ export const getMealsByCategory = async (
 
 export const getAllCategories = async (): Promise<ICategory[]> =>
   (await axios.get("/category")).data.data;
+
+export const getMealById = async (id: string): Promise<IMeal> =>
+  (await axios.get(`/meal/${id}`)).data.data;

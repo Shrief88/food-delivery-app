@@ -7,6 +7,7 @@ import Checkout from "./pages/Checkout";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Layout from "./components/ui/Layout";
+import Meal from "./pages/Meal";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/menu" element={<Menu />} />
+                <Route path="/menu/:mealId" element={<Meal />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import {
   Card,
@@ -48,7 +48,7 @@ const Menu = () => {
   const [categoryValue, setCategoryValue] = useState(
     searchParms.get("category") || ""
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const currentPage = parseInt(searchParms.get("page") as string) || 1;
 
@@ -96,9 +96,12 @@ const Menu = () => {
       const mappedCards = meals.data.map((meal) => {
         return (
           <Card key={meal._id} className="w-64 flex flex-col justify-between">
-            <CardHeader>
-              <img src={meal.image} />
-            </CardHeader>
+            <Link to={`/menu/${meal._id}`}>
+              <CardHeader>
+                <img src={meal.image} />
+              </CardHeader>
+            </Link>
+
             <CardContent>
               <p>{meal.name}</p>
             </CardContent>
