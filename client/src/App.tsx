@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
-import Food from "./pages/Food";
+import Menu from "./pages/Menu";
 import Checkout from "./pages/Checkout";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -18,7 +18,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/food" element={<Food />} />
+                <Route path="/menu" element={<Menu />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />

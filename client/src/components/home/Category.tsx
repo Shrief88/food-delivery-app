@@ -10,7 +10,7 @@ const Category = (props: CatogoryProps) => {
   return (
     <Link
       to={{
-        pathname: "/food",
+        pathname: "/menu",
         search: `?category=${props.name.toLowerCase()}`,
       }}
     >

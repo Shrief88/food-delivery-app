@@ -36,7 +36,7 @@ import { GetMealsResults, ICategory } from "@/model";
 import { getAllCategories, getAllMeals, getMealsByCategory } from "@/data";
 import { formatPrice } from "@/lib/utils";
 
-const Food = () => {
+const Menu = () => {
   const [meals, setMeals] = useState<GetMealsResults | null>(null);
   const [mealsCards, setMealsCards] = useState<JSX.Element[]>([]);
   const [paginationItems, setPaginationItems] = useState<JSX.Element[]>([]);
@@ -217,4 +217,4 @@ const Food = () => {
   );
 };
 
-export default Food;
+export default Menu;
