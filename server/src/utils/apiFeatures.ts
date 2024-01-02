@@ -5,7 +5,7 @@ type QueryObject = Record<string, unknown>;
 class ApiFeatures<T extends mongoose.Document> {
   queryString: QueryObject;
   mongooseQuery: mongoose.Query<T[], T>;
-  pagginationResult?: {
+  paginationResult?: {
     currentPage: number;
     limit: number;
     numberOfPages: number;
@@ -53,17 +53,17 @@ class ApiFeatures<T extends mongoose.Document> {
     return this;
   }
 
-  paggination(countDocument: number): this {
+  pagination(countDocument: number): this {
     const page = (this.queryString.page as number) || 1;
     const limit = (this.queryString.limit as number) || 10;
     const skip = (page - 1) * limit;
-    const paggination = {
+    const pagination = {
       currentPage: page,
       limit,
       numberOfPages: Math.ceil(countDocument / limit),
     };
 
-    this.pagginationResult = paggination;
+    this.paginationResult = pagination;
     this.mongooseQuery = this.mongooseQuery.skip(skip).limit(limit);
 
     return this;

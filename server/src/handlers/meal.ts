@@ -20,15 +20,15 @@ export const getMeals: RequestHandler = async (req, res, next) => {
       .filter()
       .sort()
       .fields()
-      .paggination(documentCount)
+      .pagination(documentCount)
       .search();
 
-    const { mongooseQuery, pagginationResult } = apiFeatures;
+    const { mongooseQuery, paginationResult } = apiFeatures;
     const categories = await mongooseQuery;
 
     res.status(200).json({
       result: categories.length,
-      paggination: pagginationResult,
+      pagination: paginationResult,
       data: categories,
     });
   } catch (err) {
