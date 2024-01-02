@@ -44,10 +44,9 @@ const Food = () => {
   const [categories, serCategories] = useState<ICategory[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(searchParms.get("category") || "");
+  const [categoryValue, setCategoryValue] = useState(searchParms.get("category") || "");
 
   const currentPage = parseInt(searchParms.get("page") as string) || 1;
-  const category = (searchParms.get("category") as string) || "all";
 
   // get all categories
   useEffect(() => {
@@ -66,11 +65,11 @@ const Food = () => {
   useEffect(() => {
     const fetchData = async () => {
       let response;
-      if (category === "all") {
+      if (categoryValue === "all" || categoryValue === "") {
         response = await getAllMeals(currentPage);
       } else {
         if (categories.length === 0) return;
-        const categoryId = categories.find((cat) => cat.slug === category)?._id;
+        const categoryId = categories.find((cat) => cat.name === categoryValue)?._id;
         response = await getMealsByCategory(categoryId as string);
       }
       setMeals(response);
@@ -82,7 +81,7 @@ const Food = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [currentPage, category, categories]);
+  }, [currentPage, categoryValue, categories]);
 
   useEffect(() => {
     if (meals) {
@@ -137,7 +136,6 @@ const Food = () => {
       setPaginationItems(mappedPagginationItems);
     }
   }, [handlePaginationChange, totalPages]);
-  console.log(value)
 
   return (
     <div className="py-20 mx-auto text-center flex flex-col items-center space-y-6">
@@ -151,8 +149,8 @@ const Food = () => {
                 aria-expanded={open}
                 className="w-[200px] justify-between"
               >
-                {value
-                  ? categories.find((category) => category.name === value)?.name
+                {categoryValue
+                  ? categories.find((category) => category.name === categoryValue)?.name
                   : "Select Category..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -168,7 +166,7 @@ const Food = () => {
                         key={category.name}
                         value={category.name}
                         onSelect={(currentValue) => {
-                          setValue(currentValue === value ? "" : currentValue);
+                          setCategoryValue(currentValue === categoryValue ? "" : currentValue);
                           setOpen(false);
                           handleCategoryChange(category.slug);
                         }}
@@ -176,7 +174,7 @@ const Food = () => {
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            value === category.name
+                            categoryValue === category.name
                               ? "opacity-100"
                               : "opacity-0"
                           )}
