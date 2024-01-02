@@ -35,6 +35,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { GetMealsResults, ICategory } from "@/model";
 import { getAllCategories, getAllMeals, getMealsByCategory } from "@/data";
 import { formatPrice } from "@/lib/utils";
+import SkeletonCard from "@/components/menu/SkeletonCard";
 
 const Menu = () => {
   const [meals, setMeals] = useState<GetMealsResults | null>(null);
@@ -44,7 +45,10 @@ const Menu = () => {
   const [categories, serCategories] = useState<ICategory[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [open, setOpen] = useState(false);
-  const [categoryValue, setCategoryValue] = useState(searchParms.get("category") || "");
+  const [categoryValue, setCategoryValue] = useState(
+    searchParms.get("category") || ""
+  );
+  const [loading, setLoading] = useState(false);
 
   const currentPage = parseInt(searchParms.get("page") as string) || 1;
 
@@ -64,23 +68,27 @@ const Menu = () => {
   // get all meals
   useEffect(() => {
     const fetchData = async () => {
-      let response;
-      if (categoryValue === "all" || categoryValue === "") {
-        response = await getAllMeals(currentPage);
-      } else {
-        if (categories.length === 0) return;
-        const categoryId = categories.find((cat) => cat.name === categoryValue)?._id;
-        response = await getMealsByCategory(categoryId as string);
+      try {
+        setLoading(true);
+        let response;
+        if (categoryValue === "all" || categoryValue === "") {
+          response = await getAllMeals(currentPage);
+        } else {
+          if (categories.length === 0) return;
+          const categoryId = categories.find(
+            (cat) => cat.name === categoryValue
+          )?._id;
+          response = await getMealsByCategory(categoryId as string);
+        }
+        setMeals(response);
+        setTotalPages(response.paggination.numberOfPages);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
       }
-      setMeals(response);
-      setTotalPages(response.paggination.numberOfPages);
     };
 
-    try {
-      fetchData();
-    } catch (err) {
-      console.log(err);
-    }
+    fetchData();
   }, [currentPage, categoryValue, categories]);
 
   useEffect(() => {
@@ -150,7 +158,9 @@ const Menu = () => {
                 className="w-[200px] justify-between"
               >
                 {categoryValue
-                  ? categories.find((category) => category.name === categoryValue)?.name
+                  ? categories.find(
+                      (category) => category.name === categoryValue
+                    )?.name
                   : "Select Category..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -166,7 +176,9 @@ const Menu = () => {
                         key={category.name}
                         value={category.name}
                         onSelect={(currentValue) => {
-                          setCategoryValue(currentValue === categoryValue ? "" : currentValue);
+                          setCategoryValue(
+                            currentValue === categoryValue ? "" : currentValue
+                          );
                           setOpen(false);
                           handleCategoryChange(category.slug);
                         }}
@@ -189,7 +201,9 @@ const Menu = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {mealsCards}
+          {loading
+            ? [1, 2, 3, 4, 5, 6, 7, 8].map((i) => <SkeletonCard key={i} />)
+            : mealsCards}
         </div>
       </MaxWidthWrapper>
       {meals && (
