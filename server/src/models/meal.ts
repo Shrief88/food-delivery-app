@@ -75,6 +75,14 @@ const mealSchema = new Schema<IMeal>(
   },
 );
 
+mealSchema.pre<IMeal>(/^find/, function (next) {
+  void this.populate({
+    path: "category",
+    select: "name",
+  });
+  next();
+});
+
 mealSchema.post("init", function (doc) {
   returnImageUrl(doc, "meal");
 });
