@@ -133,7 +133,7 @@ export const protectRoute: RequestHandler = async (
 };
 
 // @desc Creates a middleware function that checks if the user is allowed to access the route based on their roles.
-export const allowedTo = (...roles: string[]): RequestHandler => {
+export const restrictTo = (...roles: string[]): RequestHandler => {
   return async (req: CustomRequest, res, next) => {
     try {
       if (!roles.includes(req.user.role as unknown as string)) {
