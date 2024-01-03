@@ -81,7 +81,7 @@ const Menu = () => {
           response = await getMealsByCategory(categoryId as string);
         }
         setMeals(response);
-        setTotalPages(response.paggination.numberOfPages);
+        setTotalPages(response.pagination.numberOfPages);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -136,15 +136,15 @@ const Menu = () => {
 
   useEffect(() => {
     if (totalPages > 0) {
-      const mappedPagginationItems: JSX.Element[] = [];
+      const mappedPaginationItems: JSX.Element[] = [];
       for (let i = 1; i <= totalPages; i++) {
-        mappedPagginationItems.push(
+        mappedPaginationItems.push(
           <PaginationItem key={i} onClick={() => handlePaginationChange(i)}>
             <PaginationLink>{i}</PaginationLink>
           </PaginationItem>
         );
       }
-      setPaginationItems(mappedPagginationItems);
+      setPaginationItems(mappedPaginationItems);
     }
   }, [handlePaginationChange, totalPages]);
 

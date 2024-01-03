@@ -17,7 +17,7 @@ export interface IMeal {
   updatedAt: Date;
 }
 
-interface Paggination {
+interface Pagination {
   currentPage: number;
   limit: number;
   numberOfPages: number;
@@ -25,7 +25,7 @@ interface Paggination {
 
 export interface GetMealsResults {
   result: number;
-  paggination: Paggination;
+  pagination: Pagination;
   data: IMeal[];
 }
 

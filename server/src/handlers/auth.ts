@@ -44,7 +44,7 @@ export const signup: RequestHandler = async (req, res, next) => {
     }
 
     await UserModel.create(req.body);
-    res.status(200).json({ message: "code sent to email" });
+    res.status(201).json({ message: "code sent to email" });
   } catch (err) {
     next(err);
   }

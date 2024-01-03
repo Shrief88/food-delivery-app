@@ -17,3 +17,13 @@ export const getAllCategories = async (): Promise<ICategory[]> =>
 
 export const getMealById = async (id: string): Promise<IMeal> =>
   (await axios.get(`/meal/${id}`)).data.data;
+
+interface CreateUser {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+export const createUser = async (input: CreateUser): Promise<number> => 
+  (await axios.post("/auth/signup", input)).status;
+

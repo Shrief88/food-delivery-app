@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom"
+import { Toaster } from "@/components/ui/sonner"
 
 import Navbar from "../navbar/Navbar"
 const Layout = () => {
@@ -6,6 +7,7 @@ const Layout = () => {
     <div className="h-full flex flex-col">
       <Navbar />
       <Outlet />
+      <Toaster />
     </div>
   )
 }
