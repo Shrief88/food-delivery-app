@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Layout from "./components/ui/Layout";
 import Meal from "./pages/Meal";
+import Verify from "./pages/Verify";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <main className="relative flex flex-col min-h-screen">
           <div className="flex-grow flex-1">
             <Routes>
+              <Route path="/verify/:code" element={<Verify />} />
               <Route element={<Layout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/contact" element={<Contact />} />

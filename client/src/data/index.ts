@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosPromise } from "axios";
 
 import { GetMealsResults, ICategory, IMeal } from "@/model";
 
@@ -27,3 +27,5 @@ interface CreateUser {
 export const createUser = async (input: CreateUser): Promise<number> => 
   (await axios.post("/auth/signup", input)).status;
 
+export const verifyEmail = async (code: string): AxiosPromise => 
+  (await axios.get(`/auth/verify/${code}`)).data
