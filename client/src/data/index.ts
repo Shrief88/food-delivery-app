@@ -29,3 +29,11 @@ export const createUser = async (input: CreateUser): Promise<number> =>
 
 export const verifyEmail = async (code: string): AxiosPromise => 
   (await axios.get(`/auth/verify/${code}`)).data
+
+
+interface loginUser {
+  email: string;
+  password: string;
+}
+export const login = async(input: loginUser): AxiosPromise => 
+  (await axios.post("/auth/login", input)).data
