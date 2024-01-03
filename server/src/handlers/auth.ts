@@ -36,7 +36,7 @@ export const signup: RequestHandler = async (req, res, next) => {
       await sendEmail({
         email: req.body.email,
         subject: "Verify your email",
-        content: `Click on this Link to verify your email: ${env.BASE_URL}/api/v1/auth/verify/${code}`,
+        content: `Click on this Link to verify your email: ${env.CLIENT_URL}/verify/${code}`,
       });
     } catch (err) {
       console.log(err);
