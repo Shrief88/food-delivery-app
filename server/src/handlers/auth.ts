@@ -10,7 +10,7 @@ import env from "../config/validateEnv";
 import { UserModel, type IUser } from "../models/user";
 import { createAccessToken, createRefreshToken } from "../utils/createToken";
 import { sendEmail } from "../utils/sendEmial";
-// import { type SanitizeUser, sanitizeUser } from "../utils/sanitizeDate";
+import { sanitizeUser } from "../utils/sanitizeData";
 
 interface jwtObject {
   user_id: string;
@@ -62,18 +62,20 @@ export const verifyEmail: RequestHandler = async (req, res, next) => {
     user.verified = true;
     user.verifyCode = undefined;
 
-    const accesstoken = createAccessToken({ user_id: user._id });
-    const refreshtoken = createRefreshToken({ user_id: user._id });
-    user.refreshToken = refreshtoken;
+    const accessToken = createAccessToken({ user_id: user._id });
+    const refreshToken = createRefreshToken({ user_id: user._id });
+    user.refreshToken = refreshToken;
     await user.save();
+
+    const sanitizedUser = sanitizeUser(user);
 
     res
       .status(200)
-      .cookie("refreshToken", refreshtoken, {
+      .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      .json({ accesstoken });
+      .json({ user: sanitizedUser, accessToken });
   } catch (err) {
     next(err);
   }
@@ -95,19 +97,21 @@ export const login: RequestHandler = async (req, res, next) => {
       throw createHttpError(401, "Email not verified");
     }
 
-    const accesstoken = createAccessToken({ user_id: user._id });
-    const refreshtoken = createRefreshToken({ user_id: user._id });
+    const accessToken = createAccessToken({ user_id: user._id });
+    const refreshToken = createRefreshToken({ user_id: user._id });
 
-    user.refreshToken = refreshtoken;
+    user.refreshToken = refreshToken;
     await user.save();
+
+    const sanitizedUser = sanitizeUser(user);
 
     res
       .status(200)
-      .cookie("refreshToken", refreshtoken, {
+      .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      .json({ accesstoken });
+      .json({ user: sanitizedUser, accessToken });
   } catch (err) {
     next(err);
   }
@@ -158,8 +162,8 @@ export const refreshAccessToken: RequestHandler = async (req, res, next) => {
             if (err) {
               throw createHttpError(403, "Forbidden");
             }
-            const accesstoken = createAccessToken({ user_id: user._id });
-            res.status(200).json({ accesstoken });
+            const accessToken = createAccessToken({ user_id: user._id });
+            res.status(200).json({ accessToken });
           },
         );
       } else {
