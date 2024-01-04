@@ -8,9 +8,11 @@ import { buttonVariants } from "../ui/button";
 import Cart from "../cart/Cart";
 import NavItem from "./NavItem";
 
-const Navbar = () => {
-  const user = null;
+import { useTypedSelector } from "@/stateStore";
 
+const Navbar = () => {
+  const user = useTypedSelector((state) => state.authState.user);
+  
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-22">
       <header className="relative bg-white">
@@ -30,11 +32,19 @@ const Navbar = () => {
               <div className="flex items-center">
                 <div className="flex flex-1 items-center">
                   {user ? null : (
-                    <NavItem name="Login" link="/login" customStyle = {buttonVariants({ variant: 'ghost'})} />
+                    <NavItem
+                      name="Login"
+                      link="/login"
+                      customStyle={buttonVariants({ variant: "ghost" })}
+                    />
                   )}
                   <Separator orientation="vertical" />
                   {user ? null : (
-                    <NavItem name="Register" link="/signup" customStyle = {buttonVariants({ variant: 'ghost'})} />
+                    <NavItem
+                      name="Register"
+                      link="/signup"
+                      customStyle={buttonVariants({ variant: "ghost" })}
+                    />
                   )}
                   <Separator orientation="vertical" />
                   <Cart />

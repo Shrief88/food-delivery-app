@@ -11,8 +11,11 @@ import logo from "../assets/images/res-logo.png";
 import { loginSchema, TLoginSchema } from "../validators/login";
 import { login } from "@/data";
 import { AxiosError } from "axios";
+import { useAppDispatch } from "@/stateStore";
+import { authStateServices } from "@/reducers/authStateSlice";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -24,7 +27,7 @@ const Login = () => {
   const onSubmit = async (data: TLoginSchema) => {
     try {
       const response = await login(data);
-      console.log(response);
+      dispatch(authStateServices.actions.setAuthState(response));
     } catch (err) {
       const error = err as AxiosError<unknown>;
       if ((error.response?.status as number) === 404) {

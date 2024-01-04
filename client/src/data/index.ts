@@ -1,6 +1,6 @@
 import axios, { AxiosPromise } from "axios";
 
-import { GetMealsResults, ICategory, IMeal } from "@/model";
+import { GetMealsResults, ICategory, IMeal,LoginResponse } from "@/model";
 
 axios.defaults.baseURL = "http://localhost:3000/api/v1";
 axios.defaults.headers["Content-type"] = "application/json";
@@ -35,5 +35,5 @@ interface loginUser {
   email: string;
   password: string;
 }
-export const login = async(input: loginUser): AxiosPromise => 
+export const login = async(input: loginUser): Promise<LoginResponse> => 
   (await axios.post("/auth/login", input)).data

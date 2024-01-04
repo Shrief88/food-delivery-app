@@ -12,7 +12,7 @@ export interface IMeal {
   category: {
     _id: string;
     name: string;
-  }
+  };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,3 +37,15 @@ export interface ICategory {
   updatedAt?: Date;
 }
 
+export interface IUser {
+  _id: string;
+  name: string;
+  slug: string;
+  email : string;
+  image : string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  user : IUser
+}
