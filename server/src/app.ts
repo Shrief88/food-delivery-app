@@ -1,6 +1,6 @@
 import path from "path";
 
-import express, { type RequestHandler } from "express";
+import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -11,13 +11,22 @@ import categoryRouter from "./routes/category";
 import mealRouter from "./routes/meal";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import allowedOrgins from "./config/allowedOrgins";
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  credentials: true,
+  origin: function (origin: string, callback: any) {
+    if (!origin || allowedOrgins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
 
-const corsOptions: RequestHandler = cors();
-app.options("*", corsOptions);
+app.use(cors(corsOptions));
 
 if (env.isDevelopment) {
   app.use(morgan("dev"));
@@ -25,6 +34,7 @@ if (env.isDevelopment) {
 
 app.use(express.json());
 app.use(cookieParser());
+
 // Set static folder for image
 app.use(express.static(path.join(__dirname, "..", "uploads")));
 

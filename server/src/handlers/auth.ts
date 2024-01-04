@@ -109,6 +109,8 @@ export const login: RequestHandler = async (req, res, next) => {
       .status(200)
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
+        sameSite: "strict",
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({ user: sanitizedUser, accessToken });
@@ -150,6 +152,7 @@ export const logout: RequestHandler = async (req, res, next) => {
 export const refreshAccessToken: RequestHandler = async (req, res, next) => {
   try {
     const cookies = req.cookies;
+    console.log(req.cookies);
     if (cookies.refreshToken) {
       const user = await UserModel.findOne({
         refreshToken: cookies.refreshToken,
@@ -162,6 +165,7 @@ export const refreshAccessToken: RequestHandler = async (req, res, next) => {
             if (err) {
               throw createHttpError(403, "Forbidden");
             }
+            // const sanitizedUser = sanitizeUser(user);
             const accessToken = createAccessToken({ user_id: user._id });
             res.status(200).json({ accessToken });
           },
@@ -214,6 +218,9 @@ export const protectRoute: RequestHandler = async (
       throw createHttpError(401, "Unauthorized, please login");
     }
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      next(createHttpError(403, "token expired"));
+    }
     next(err);
   }
 };
