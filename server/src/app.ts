@@ -3,6 +3,7 @@ import path from "path";
 import express, { type RequestHandler } from "express";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import env from "../src/config/validateEnv";
 import errorMiddleware from "./middleware/errorMiddleware";
@@ -23,7 +24,7 @@ if (env.isDevelopment) {
 }
 
 app.use(express.json());
-
+app.use(cookieParser());
 // Set static folder for image
 app.use(express.static(path.join(__dirname, "..", "uploads")));
 

@@ -11,4 +11,8 @@ authRouter.get("/verify/:code", authHandler.verifyEmail);
 
 authRouter.post("/login", authValidator.login, authHandler.login);
 
+authRouter.get("/refresh", authHandler.refreshAccessToken);
+
+authRouter.get("/logout", authHandler.logout);
+
 export default authRouter;

@@ -8,7 +8,7 @@ import createHttpError from "http-errors";
 
 import env from "../config/validateEnv";
 import { UserModel, type IUser } from "../models/user";
-import createToken from "../utils/createToken";
+import { createAccessToken, createRefreshToken } from "../utils/createToken";
 import { sendEmail } from "../utils/sendEmial";
 // import { type SanitizeUser, sanitizeUser } from "../utils/sanitizeDate";
 
@@ -58,11 +58,22 @@ export const verifyEmail: RequestHandler = async (req, res, next) => {
     const hashCode = crypto.createHash("sha256").update(code).digest("hex");
     const user = await UserModel.findOne({ verifyCode: hashCode });
     if (!user) throw createHttpError(404, "Verify code not found");
+
     user.verified = true;
     user.verifyCode = undefined;
+
+    const accesstoken = createAccessToken({ user_id: user._id });
+    const refreshtoken = createRefreshToken({ user_id: user._id });
+    user.refreshToken = refreshtoken;
     await user.save();
-    const token = createToken({ user_id: user._id });
-    res.status(200).json({ token });
+
+    res
+      .status(200)
+      .cookie("refreshToken", refreshtoken, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .json({ accesstoken });
   } catch (err) {
     next(err);
   }
@@ -84,8 +95,79 @@ export const login: RequestHandler = async (req, res, next) => {
       throw createHttpError(401, "Email not verified");
     }
 
-    const token = createToken({ user_id: user._id });
-    res.status(200).json({ data: user, token });
+    const accesstoken = createAccessToken({ user_id: user._id });
+    const refreshtoken = createRefreshToken({ user_id: user._id });
+
+    user.refreshToken = refreshtoken;
+    await user.save();
+
+    res
+      .status(200)
+      .cookie("refreshToken", refreshtoken, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .json({ accesstoken });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const logout: RequestHandler = async (req, res, next) => {
+  try {
+    const cookies = req.cookies;
+    if (!cookies.refreshToken) return res.sendStatus(204);
+
+    const user = await UserModel.findOne({
+      refreshToken: cookies.refreshToken,
+    });
+
+    if (!user) {
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+      return res.sendStatus(204);
+    }
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    user.refreshToken = undefined;
+    await user.save();
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const refreshAccessToken: RequestHandler = async (req, res, next) => {
+  try {
+    const cookies = req.cookies;
+    if (cookies.refreshToken) {
+      const user = await UserModel.findOne({
+        refreshToken: cookies.refreshToken,
+      });
+      if (user) {
+        jwt.verify(
+          cookies.refreshToken as string,
+          env.REFRESH_TOKEN_SECRET,
+          (err, decoded) => {
+            if (err) {
+              throw createHttpError(403, "Forbidden");
+            }
+            const accesstoken = createAccessToken({ user_id: user._id });
+            res.status(200).json({ accesstoken });
+          },
+        );
+      } else {
+        throw createHttpError(403, "Forbidden");
+      }
+    } else {
+      throw createHttpError(401, "Unauthorized, please login");
+    }
   } catch (err) {
     next(err);
   }
@@ -102,7 +184,7 @@ export const protectRoute: RequestHandler = async (
     if (req.headers.authorization) {
       token = req.headers.authorization.split(" ")[1];
       if (token) {
-        const decoded = jwt.verify(token, env.JWT_SECRET);
+        const decoded = jwt.verify(token, env.ACCESS_TOKEN_SECRET);
         const user = await UserModel.findById((decoded as jwtObject).user_id);
 
         // verify if user still exists

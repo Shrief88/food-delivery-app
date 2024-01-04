@@ -6,10 +6,14 @@ interface PayloadObject {
   user_id: string;
 }
 
-const createToken = (paylod: PayloadObject): string => {
-  return jwt.sign(paylod, env.JWT_SECRET, {
-    expiresIn: env.EXPIRE_IN_TOKEN,
+export const createAccessToken = (paylod: PayloadObject): string => {
+  return jwt.sign(paylod, env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m",
   });
 };
 
-export default createToken;
+export const createRefreshToken = (paylod: PayloadObject): string => {
+  return jwt.sign(paylod, env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
+};

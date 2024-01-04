@@ -6,7 +6,7 @@ import bycrpt from "bcryptjs";
 
 import ApiFeatures from "../utils/apiFeatures";
 import { UserModel, type IUser } from "../models/user";
-import createToken from "../utils/createToken";
+import { createAccessToken, createRefreshToken } from "../utils/createToken";
 
 // @route GET /api/v1/user
 // @access Private [admin, manager]
@@ -54,9 +54,18 @@ export const createUser: RequestHandler = async (req, res, next) => {
   try {
     req.body.slug = slugify(req.body.name as string);
     req.body.verified = true;
-    const newUser = await UserModel.create(req.body);
-    const token = createToken({ user_id: newUser._id });
-    res.status(201).json({ data: newUser, token });
+    const accesstoken = createAccessToken({ user_id: req.body.name });
+    const refreshtoken = createRefreshToken({ user_id: req.body.name });
+    req.body.refreshToken = refreshtoken;
+    await UserModel.create(req.body);
+
+    res
+      .status(200)
+      .cookie("refreshToken", refreshtoken, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .json({ accesstoken });
   } catch (err) {
     next(err);
   }
