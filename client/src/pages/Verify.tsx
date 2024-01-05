@@ -1,29 +1,37 @@
 import { useEffect, useState } from "react";
 import verify from "../assets/images/verify_email.jpg";
 import { NavLink, useParams } from "react-router-dom";
-import { verifyEmail } from "@/data";
+import { verifyEmail } from "@/api/auth";
 import { ShieldX } from "lucide-react";
+import { useAppDispatch } from "@/stateStore";
+import { authStateServices } from "@/reducers/authStateSlice";
+import useCheckToken from "@/hooks/useCheckToken";
+
 
 const Verify = () => {
+  useCheckToken();
+  
   const { code } = useParams();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        await verifyEmail(code as string);
+        const response = await verifyEmail(code as string);
+        dispatch(authStateServices.actions.setAuthState(response));
         setSuccess(true);
       } catch (err) {
-        
         setSuccess(false);
         console.log(err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false)
     };
     fetchData();
-  },[code]);
+  }, [code]);
   return (
     <>
       {!loading && (
@@ -46,9 +54,7 @@ const Verify = () => {
             </NavLink>
           )}
           {!success && (
-            <p className="text-red-600">
-              Your email has not been Verified
-            </p>
+            <p className="text-red-600">Your email has not been Verified</p>
           )}
         </div>
       )}
@@ -57,4 +63,3 @@ const Verify = () => {
 };
 
 export default Verify;
-

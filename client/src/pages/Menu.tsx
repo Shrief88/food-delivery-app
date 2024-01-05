@@ -33,7 +33,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { GetMealsResults, ICategory } from "@/model";
-import { getAllCategories, getAllMeals, getMealsByCategory } from "@/data";
+import { getAllCategories, getAllMeals, getMealsByCategory } from "@/api/data";
 import { formatPrice } from "@/lib/utils";
 import SkeletonCard from "@/components/menu/SkeletonCard";
 

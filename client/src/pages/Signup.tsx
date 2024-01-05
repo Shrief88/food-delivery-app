@@ -10,10 +10,14 @@ import { toast } from "sonner";
 
 import logo from "../assets/images/res-logo.png";
 import { authSchema, TAuthSchema } from "../validators/signup";
-import { createUser } from "@/data";
+import { createUser } from "@/api/auth";
 import { AxiosError } from "axios";
+import useCheckToken from "@/hooks/useCheckToken";
+
 
 const Signup = () => {
+  useCheckToken();
+  
   const {
     register,
     handleSubmit,

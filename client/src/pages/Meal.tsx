@@ -2,7 +2,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IMeal } from "@/model";
-import { getMealById } from "@/data";
+import { getMealById } from "@/api/data";
 import { formatPrice, cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button, buttonVariants } from "@/components/ui/button";

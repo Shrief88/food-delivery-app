@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Layout from "./components/ui/Layout";
 import Meal from "./pages/Meal";
 import Verify from "./pages/Verify";
+import PersisttentLogin from "./components/PersisttentLogin";
 
 function App() {
   return (
@@ -19,13 +20,15 @@ function App() {
             <Routes>
               <Route path="/verify/:code" element={<Verify />} />
               <Route element={<Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/menu" element={<Menu />} />
-                <Route path="/menu/:mealId" element={<Meal />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+                <Route element={<PersisttentLogin />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/menu" element={<Menu />} />
+                  <Route path="/menu/:mealId" element={<Meal />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                </Route>
               </Route>
             </Routes>
           </div>

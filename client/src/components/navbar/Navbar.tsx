@@ -12,7 +12,7 @@ import { useTypedSelector } from "@/stateStore";
 
 const Navbar = () => {
   const user = useTypedSelector((state) => state.authState.user);
-  
+
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-22">
       <header className="relative bg-white">

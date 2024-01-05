@@ -153,7 +153,6 @@ export const logout: RequestHandler = async (req, res, next) => {
 export const refreshAccessToken: RequestHandler = async (req, res, next) => {
   try {
     const cookies = req.cookies;
-    console.log(req.cookies);
     if (cookies.refreshToken) {
       const user = await UserModel.findOne({
         refreshToken: cookies.refreshToken,

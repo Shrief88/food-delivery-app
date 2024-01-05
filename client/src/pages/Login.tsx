@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -9,13 +10,21 @@ import { toast } from "sonner";
 
 import logo from "../assets/images/res-logo.png";
 import { loginSchema, TLoginSchema } from "../validators/login";
-import { login } from "@/data";
+import { login } from "@/api/auth";
 import { AxiosError } from "axios";
 import { useAppDispatch } from "@/stateStore";
 import { authStateServices } from "@/reducers/authStateSlice";
+import useCheckToken from "@/hooks/useCheckToken";
+
 
 const Login = () => {
+  useCheckToken();
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
@@ -28,6 +37,7 @@ const Login = () => {
     try {
       const response = await login(data);
       dispatch(authStateServices.actions.setAuthState(response));
+      navigate(from, { replace: true });
     } catch (err) {
       const error = err as AxiosError<unknown>;
       if ((error.response?.status as number) === 404) {
