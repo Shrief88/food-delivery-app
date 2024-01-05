@@ -37,6 +37,7 @@ const Login = () => {
     try {
       const response = await login(data);
       dispatch(authStateServices.actions.setAuthState(response));
+      toast.success("Logged in successfully");
       navigate(from, { replace: true });
     } catch (err) {
       const error = err as AxiosError<unknown>;

@@ -7,6 +7,7 @@ import NavItems from "./NavItems";
 import { buttonVariants } from "../ui/button";
 import Cart from "../cart/Cart";
 import NavItem from "./NavItem";
+import UserAccountNav from "./UserAccountNav";
 
 import { useTypedSelector } from "@/stateStore";
 
@@ -39,7 +40,9 @@ const Navbar = () => {
                     />
                   )}
                   <Separator orientation="vertical" />
-                  {user ? null : (
+                  {user ? (
+                    <UserAccountNav username={user.name}/>
+                  ) : (
                     <NavItem
                       name="Register"
                       link="/signup"

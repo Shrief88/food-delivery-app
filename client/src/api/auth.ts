@@ -24,3 +24,6 @@ export const login = async (input: loginUser): Promise<LoginResponse> =>
 
 export const refreshAccessToken = async (): Promise<LoginResponse> =>
   (await axiosClient.get("/auth/refresh")).data;
+
+export const logout = async (): Promise<void> =>
+  (await axiosClient.get("/auth/logout")).data;
