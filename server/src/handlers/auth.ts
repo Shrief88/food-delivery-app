@@ -165,9 +165,9 @@ export const refreshAccessToken: RequestHandler = async (req, res, next) => {
             if (err) {
               throw createHttpError(403, "Forbidden");
             }
-            // const sanitizedUser = sanitizeUser(user);
+            const sanitizedUser = sanitizeUser(user);
             const accessToken = createAccessToken({ user_id: user._id });
-            res.status(200).json({ accessToken });
+            res.status(200).json({ user: sanitizedUser, accessToken });
           },
         );
       } else {
@@ -208,6 +208,19 @@ export const protectRoute: RequestHandler = async (
         // check if user is verified
         if (!user.verified) {
           throw createHttpError(401, "user is not verified");
+        }
+
+        // verify if password has been changed after token was issued
+        if (user.passwordChangedAt) {
+          const changedTimestamp = Math.floor(
+            user.passwordChangedAt.getTime() / 1000,
+          );
+          if (changedTimestamp > (decoded as jwtObject).iat) {
+            throw createHttpError(
+              401,
+              "user recently changed password, please login again",
+            );
+          }
         }
 
         req.user = user;

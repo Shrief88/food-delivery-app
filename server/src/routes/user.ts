@@ -1,56 +1,59 @@
 import express from "express";
 
 import * as authHandler from "../handlers/auth";
-import * as userHandler from "../handlers/user";
-import * as userValidator from "../validators/user";
+import * as adminHandler from "../handlers/admin";
+import * as adminValidator from "../validators/admin";
+import * as loggedUserHandler from "../handlers/loggedUser";
 
 const userRouter = express.Router();
 
+// logged user
+userRouter.get(
+  "/me",
+  authHandler.protectRoute,
+  loggedUserHandler.getLoggedUser,
+  adminHandler.getUser,
+);
+
+// admin, manager only
 userRouter.get(
   "/",
   authHandler.protectRoute,
   authHandler.restrictTo("admin", "manager"),
-  userHandler.getUsers,
+  adminHandler.getUsers,
 );
 
 userRouter.get(
   "/:id",
   authHandler.protectRoute,
   authHandler.restrictTo("admin", "manager"),
-  userValidator.getUser,
-  userHandler.getUser,
+  adminValidator.getUser,
+  adminHandler.getUser,
 );
 
+// admin only
 userRouter.post(
   "/",
   authHandler.protectRoute,
   authHandler.restrictTo("admin"),
-  userValidator.createUser,
-  userHandler.createUser,
+  adminValidator.createUser,
+  adminHandler.createUser,
 );
 
 userRouter.put(
-  "/",
+  "/changeRule/:id",
   authHandler.protectRoute,
   authHandler.restrictTo("admin"),
-  userValidator.updateUser,
-  userHandler.updateUser,
-);
-
-userRouter.put(
-  "/changePassword",
-  authHandler.protectRoute,
-  authHandler.restrictTo("admin"),
-  userValidator.updateUserPassword,
-  userHandler.changeUserPassword,
+  adminValidator.changeUserRole,
+  adminHandler.changeUserRole,
 );
 
 userRouter.delete(
   "/:id",
   authHandler.protectRoute,
   authHandler.restrictTo("admin"),
-  userValidator.deleteUser,
-  userHandler.deleteUser,
+  adminValidator.deleteUser,
+  adminHandler.deleteUser,
 );
 
 export default userRouter;

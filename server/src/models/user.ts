@@ -20,6 +20,7 @@ export interface IUser extends mongoose.Document {
   verifyCode?: string;
   active: boolean;
   refreshToken?: string;
+  passwordChangedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -72,6 +73,9 @@ const userSchema = new Schema<IUser>(
     },
     refreshToken: {
       type: String,
+    },
+    passwordChangedAt: {
+      type: Date,
     },
   },
   {
