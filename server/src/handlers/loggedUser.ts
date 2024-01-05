@@ -50,7 +50,6 @@ export const changeLoggedUserPassword: RequestHandler = async (
     user.refreshToken = refreshToken;
     await user.save();
 
-    const sanitizedUser = sanitizeUser(user);
     res
       .status(200)
       .cookie("refreshToken", refreshToken, {
@@ -59,7 +58,7 @@ export const changeLoggedUserPassword: RequestHandler = async (
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      .json({ user: sanitizedUser, accessToken });
+      .json({ accessToken });
   } catch (err) {
     next(err);
   }
@@ -78,9 +77,9 @@ export const updateLoggedUser: RequestHandler = async (
       req.body.slug = slugify(req.body.name as string);
     }
     const updatedFields = {
-      name: req.body.name,
-      slug: req.body.slug,
-      email: req.body.email,
+      name: req.body.name ? req.body.name : undefined,
+      slug: req.body.slug ? req.body.slug : undefined,
+      email: req.body.email ? req.body.email : undefined,
     };
 
     const user = await UserModel.findByIdAndUpdate(
@@ -111,47 +110,6 @@ export const deleteLoggedUser: RequestHandler = async (
     const id = req.user._id;
     await UserModel.findByIdAndUpdate(id, { active: false }, { new: true });
     res.sendStatus(204);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// @desc activate the user
-// @route put /api/v1/user/activeMe
-// @access public
-export const activeLoggedUser: RequestHandler = async (
-  req: CustomRequest,
-  res,
-  next,
-) => {
-  try {
-    const user = await UserModel.findOne({ email: req.body.email });
-    if (
-      !user ||
-      !(await bycrpt.compare(req.body.password as string, user.password))
-    ) {
-      throw createHttpError(404, "Invalid credantials");
-    }
-
-    const accessToken = createAccessToken({ user_id: user._id });
-    const refreshToken = createRefreshToken({ user_id: user._id });
-
-    await UserModel.findByIdAndUpdate(
-      user._id,
-      { active: true, refreshToken },
-      { new: true },
-    );
-
-    const sanitizedUser = sanitizeUser(user);
-    res
-      .status(200)
-      .cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
-      .json({ user: sanitizedUser, accessToken });
   } catch (err) {
     next(err);
   }

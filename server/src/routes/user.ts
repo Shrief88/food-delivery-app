@@ -4,28 +4,38 @@ import * as authHandler from "../handlers/auth";
 import * as adminHandler from "../handlers/admin";
 import * as adminValidator from "../validators/admin";
 import * as loggedUserHandler from "../handlers/loggedUser";
+import * as loggedUserValidator from "../validators/loggedUser";
 
 const userRouter = express.Router();
 
+userRouter.use(authHandler.protectRoute);
+
 // logged user
-userRouter.get(
-  "/me",
-  authHandler.protectRoute,
-  loggedUserHandler.getLoggedUser,
-  adminHandler.getUser,
+userRouter.get("/me", loggedUserHandler.getLoggedUser, adminHandler.getUser);
+
+userRouter.put(
+  "/updateMe",
+  loggedUserValidator.updateLoggedUser,
+  loggedUserHandler.updateLoggedUser,
 );
+
+userRouter.put(
+  "/changePassword",
+  loggedUserValidator.changeLoggedUserPassword,
+  loggedUserHandler.changeLoggedUserPassword,
+);
+
+userRouter.delete("/deleteMe", loggedUserHandler.deleteLoggedUser);
 
 // admin, manager only
 userRouter.get(
   "/",
-  authHandler.protectRoute,
   authHandler.restrictTo("admin", "manager"),
   adminHandler.getUsers,
 );
 
 userRouter.get(
   "/:id",
-  authHandler.protectRoute,
   authHandler.restrictTo("admin", "manager"),
   adminValidator.getUser,
   adminHandler.getUser,
@@ -34,7 +44,6 @@ userRouter.get(
 // admin only
 userRouter.post(
   "/",
-  authHandler.protectRoute,
   authHandler.restrictTo("admin"),
   adminValidator.createUser,
   adminHandler.createUser,
@@ -42,7 +51,6 @@ userRouter.post(
 
 userRouter.put(
   "/changeRule/:id",
-  authHandler.protectRoute,
   authHandler.restrictTo("admin"),
   adminValidator.changeUserRole,
   adminHandler.changeUserRole,
@@ -50,7 +58,6 @@ userRouter.put(
 
 userRouter.delete(
   "/:id",
-  authHandler.protectRoute,
   authHandler.restrictTo("admin"),
   adminValidator.deleteUser,
   adminHandler.deleteUser,

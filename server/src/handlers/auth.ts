@@ -101,6 +101,7 @@ export const login: RequestHandler = async (req, res, next) => {
     const refreshToken = createRefreshToken({ user_id: user._id });
 
     user.refreshToken = refreshToken;
+    user.active = true;
     await user.save();
 
     const sanitizedUser = sanitizeUser(user);

@@ -4,6 +4,7 @@ import slugify from "slugify";
 
 import ApiFeatures from "../utils/apiFeatures";
 import { UserModel } from "../models/user";
+import { sanitizeUser } from "../utils/sanitizeData";
 
 // @route GET /api/v1/user
 // @access Private [admin, manager]
@@ -39,7 +40,8 @@ export const getUser: RequestHandler = async (req, res, next) => {
     if (!user) {
       throw createHttpError(404, "user not found");
     }
-    res.status(200).json({ data: user });
+    const sanitizedUser = sanitizeUser(user);
+    res.status(200).json({ data: sanitizedUser });
   } catch (err) {
     next(err);
   }

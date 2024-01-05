@@ -6,6 +6,7 @@ export interface SanitizeUser {
   slug: IUser["slug"];
   email: IUser["email"];
   image: IUser["image"];
+  role: IUser["role"];
 }
 
 export const sanitizeUser = (user: IUser): SanitizeUser => {
@@ -15,5 +16,6 @@ export const sanitizeUser = (user: IUser): SanitizeUser => {
     slug: user.slug,
     email: user.email,
     image: user.image,
+    role: user.role,
   };
 };

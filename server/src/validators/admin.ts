@@ -67,39 +67,6 @@ export const changeUserRole = [
   validateMiddleware,
 ];
 
-// export const updateUserPassword = [
-//   param("id").isMongoId().withMessage("Invalid ID"),
-//   body("passwordConfirm")
-//     .notEmpty()
-//     .withMessage("password Confirmation is required"),
-//   body("password")
-//     .notEmpty()
-//     .withMessage("password is required")
-//     .trim()
-//     .isLength({ min: 6 })
-//     .withMessage("Too short password")
-//     .custom((password, { req }) => {
-//       if (password !== req.body.passwordConfirm) {
-//         throw new Error("passwords don't match");
-//       }
-//       return true;
-//     }),
-//   body("currentPassword")
-//     .notEmpty()
-//     .withMessage("current password is required")
-//     .custom(async (currentPassword, { req }) => {
-//       const user = await UserModel.findById(req.params?.id).exec();
-//       if (!user) {
-//         throw new Error("user not found");
-//       }
-//       if (!(await bycrpt.compare(currentPassword as string, user.password))) {
-//         throw new Error("current password is incorrect");
-//       }
-//       return true;
-//     }),
-//   validateMiddleware,
-// ];
-
 export const deleteUser = [
   param("id").isMongoId().withMessage("Invalid ID"),
   validateMiddleware,
