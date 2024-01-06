@@ -17,13 +17,18 @@ import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/stateStore";
 import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
 import { formatPrice } from "@/lib/utils";
+import { useTypedSelector } from "@/stateStore";
+import CartItem from "./CartItem";
+import { ScrollArea } from "../ui/scroll-area";
 
 const Cart = () => {
-  //mocing data untill we build our server
-  const itemsCount = 0;
+  const { itemsCount } = useTypedSelector((state) => state.cartState);
+  const cart = useTypedSelector((state) => state.cartState);
+  const totalPrice = cart.cartItems.reduce((acc, item) => acc + item.price, 0);
+
   const shipping = 0;
   const fee = 1;
-  const total = 0;
+
   const dispatch = useAppDispatch();
 
   return (
@@ -40,7 +45,13 @@ const Cart = () => {
           {itemsCount > 0 ? (
             <div className="space-y-3">
               <p className="text-base font-bold">Cart Items</p>
-              <div className="flex flex-col w-full"></div>
+              <div className="flex flex-col w-full">
+                <ScrollArea>
+                  {cart.cartItems.map((item) => (
+                    <CartItem key={item.mealId} {...item} />
+                  ))}
+                </ScrollArea>
+              </div>
               <Separator />
               <div className="space-y-1.5 text-base">
                 <div className="flex">
@@ -54,8 +65,8 @@ const Cart = () => {
               </div>
               <Separator />
               <div className="flex justify-between text-xl font-bold">
-                <p>Total</p>
-                <span>{formatPrice(shipping + fee + total)}</span>
+                <p>Total Price</p>
+                <span>{formatPrice(shipping + fee + totalPrice)}</span>
               </div>
               <SheetFooter>
                 <SheetTrigger asChild>
@@ -67,7 +78,9 @@ const Cart = () => {
                     )}
                     onClick={() =>
                       dispatch(
-                        activeNavItemServices.actions.SetActiveNavItem("/checkout")
+                        activeNavItemServices.actions.SetActiveNavItem(
+                          "/checkout"
+                        )
                       )
                     }
                   >
@@ -78,20 +91,20 @@ const Cart = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-center">
-              <img src={emptyCard} alt="emptyCard"/>
+              <img src={emptyCard} alt="emptyCard" />
               <p className="text-lg font-bold">Your cart is empty</p>
               <p>Looks like your haven't made your choice yet...</p>
               <SheetFooter>
                 <SheetTrigger asChild>
                   <NavLink
-                    to="/food"
+                    to="/menu"
                     className={cn(
                       "mt-3",
                       buttonVariants({ variant: "destructive" })
                     )}
                     onClick={() =>
                       dispatch(
-                        activeNavItemServices.actions.SetActiveNavItem("/food")
+                        activeNavItemServices.actions.SetActiveNavItem("/menu")
                       )
                     }
                   >

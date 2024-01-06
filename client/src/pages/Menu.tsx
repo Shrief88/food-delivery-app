@@ -32,12 +32,15 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { GetMealsResults, ICategory } from "@/model";
+import { GetMealsResults, ICategory, IMeal } from "@/model";
 import { getAllCategories, getAllMeals, getMealsByCategory } from "@/api/data";
 import { formatPrice } from "@/lib/utils";
 import SkeletonCard from "@/components/menu/SkeletonCard";
+import { cartStateServices } from "@/reducers/cartSlice";
+import { useAppDispatch } from "@/stateStore";
 
 const Menu = () => {
+  const dispatch = useAppDispatch();
   const [meals, setMeals] = useState<GetMealsResults | null>(null);
   const [mealsCards, setMealsCards] = useState<JSX.Element[]>([]);
   const [paginationItems, setPaginationItems] = useState<JSX.Element[]>([]);
@@ -107,7 +110,7 @@ const Menu = () => {
             </CardContent>
             <CardFooter className="flex justify-between">
               <p>{formatPrice(meal.price)}</p>
-              <Button>Add to cart</Button>
+              <Button onClick={() => addToCart(meal)}>Add to cart</Button>
             </CardFooter>
           </Card>
         );
@@ -147,6 +150,18 @@ const Menu = () => {
       setPaginationItems(mappedPaginationItems);
     }
   }, [handlePaginationChange, totalPages]);
+
+  const addToCart = (meal: IMeal) => {
+    dispatch(
+      cartStateServices.actions.addItem({
+        name: meal.name,
+        mealId: meal._id,
+        quantity: 1,
+        price: meal.price,
+        image: meal.image,  
+      })
+    );
+  };
 
   return (
     <div className="py-20 mx-auto text-center flex flex-col items-center space-y-6">

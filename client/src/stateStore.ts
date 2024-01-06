@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import activeNavItemReducer from "./reducers/activeNavItemSlice";
 import authStateReducer from "./reducers/authStateSlice";
+import cartStateReducer from "./reducers/cartSlice";
 
 const store = configureStore({
   reducer: {
     activeNavItem: activeNavItemReducer,
-    authState : authStateReducer
+    authState : authStateReducer,
+    cartState : cartStateReducer
   },
 });
 

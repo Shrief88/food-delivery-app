@@ -6,8 +6,11 @@ import { getMealById } from "@/api/data";
 import { formatPrice, cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { useAppDispatch } from "@/stateStore";
+import { cartStateServices } from "@/reducers/cartSlice";
 
 const Meal = () => {
+  const dispatch = useAppDispatch();
   const [meal, setMeal] = useState<IMeal>({} as IMeal);
   const [loading, setLoading] = useState(true);
   const [activeButton, setActiveButton] = useState("description");
@@ -31,6 +34,17 @@ const Meal = () => {
     setActiveButton(button);
   };
 
+  const addToCart = () => {
+    dispatch(
+      cartStateServices.actions.addItem({
+        name: meal.name,
+        mealId: meal._id,
+        quantity: 1,
+        price: meal.price,
+        image: meal.image,
+      })
+    );
+  };
   return (
     <div className="mx-auto text-center flex flex-col items-center space-y-6">
       {!loading && (
@@ -51,7 +65,9 @@ const Meal = () => {
                     {meal.category.name.toUpperCase()}
                   </span>{" "}
                 </p>
-                <Button className="w-max mt-2">Add to cart</Button>
+                <Button className="w-max mt-2" onClick={addToCart}>
+                  Add to cart
+                </Button>
               </div>
             </div>
           </MaxWidthWrapper>
@@ -82,10 +98,8 @@ const Meal = () => {
                 <p className="text-muted-foreground text-base">
                   {meal.description}
                 </p>
-              ):(
-                <form action="post">
-                  {/* TODO: Add reviews */}
-                </form>
+              ) : (
+                <form action="post">{/* TODO: Add reviews */}</form>
               )}
             </div>
           </MaxWidthWrapper>

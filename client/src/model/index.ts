@@ -49,3 +49,13 @@ export interface LoginResponse {
   accessToken: string;
   user : IUser
 }
+
+
+export interface ICartItem {
+  name : string;
+  mealId : string;
+  quantity: number;
+  price: number;
+  image : string;
+}
+
