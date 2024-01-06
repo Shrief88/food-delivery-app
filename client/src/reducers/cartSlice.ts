@@ -43,6 +43,7 @@ const cartStateSlice = createSlice({
       }
       toast.success("Added to cart");
       state.itemsCount++;
+
     },
 
     removeAllItem: (state, action: { payload: string }) => {
