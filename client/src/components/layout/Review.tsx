@@ -1,6 +1,7 @@
-import { IReview } from "@/model";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Trash2, Pencil } from "lucide-react";
+
+import { IReview } from "@/model";
 import useAxiosToken from "@/hooks/useAxiosToken";
 
 interface ReviewProps {
@@ -60,7 +61,7 @@ const Review = (props: ReviewProps) => {
               </button>
             </div>
           </div>
-          // TODO: add edit button functionality
+          {/*  TODO: add edit button functionality */}
           {/* <div className="pl-2 sm:pl-4 md:flex-shrink-0 flex justify-center">
             <div className="w-8 h-8 bg-primary rounded-full flex justify-center items-center">
               <Pencil className="text-white size-5" />

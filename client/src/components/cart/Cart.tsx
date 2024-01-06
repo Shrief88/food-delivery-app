@@ -14,12 +14,13 @@ import {
 import { buttonVariants } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "../ui/scroll-area";
+
 import { useAppDispatch } from "@/stateStore";
 import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
 import { formatPrice } from "@/lib/utils";
 import { useTypedSelector } from "@/stateStore";
 import CartItem from "./CartItem";
-import { ScrollArea } from "../ui/scroll-area";
 
 const Cart = () => {
   const { itemsCount } = useTypedSelector((state) => state.cartState);

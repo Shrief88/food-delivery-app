@@ -1,6 +1,7 @@
+import { X } from "lucide-react";
+
 import { formatPrice } from "@/lib/utils";
 import { ICartItem } from "@/model";
-import { X } from "lucide-react";
 import { useAppDispatch } from "@/stateStore";
 import { cartStateServices } from "@/reducers/cartSlice";
 

@@ -1,17 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-
 import logo from "../assets/images/res-logo.png";
+
 import { loginSchema, TLoginSchema } from "../validators/login";
 import { login } from "@/api/auth";
-import { AxiosError } from "axios";
 import { useAppDispatch } from "@/stateStore";
 import { authStateServices } from "@/reducers/authStateSlice";
 import useCheckToken from "@/hooks/useCheckToken";

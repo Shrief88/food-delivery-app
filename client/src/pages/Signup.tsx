@@ -1,17 +1,17 @@
 import { NavLink } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-
 import logo from "../assets/images/res-logo.png";
+
 import { authSchema, TAuthSchema } from "../validators/signup";
 import { createUser } from "@/api/auth";
-import { AxiosError } from "axios";
 import useCheckToken from "@/hooks/useCheckToken";
 
 

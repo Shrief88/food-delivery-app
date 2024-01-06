@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import verify from "../assets/images/verify_email.jpg";
 import { NavLink, useParams } from "react-router-dom";
-import { verifyEmail } from "@/api/auth";
+
+import verify from "../assets/images/verify_email.jpg";
 import { ShieldX } from "lucide-react";
+
+import { verifyEmail } from "@/api/auth";
 import { useAppDispatch } from "@/stateStore";
 import { authStateServices } from "@/reducers/authStateSlice";
 import useCheckToken from "@/hooks/useCheckToken";

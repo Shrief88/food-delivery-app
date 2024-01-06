@@ -32,10 +32,10 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
+import SkeletonCard from "@/components/menu/SkeletonCard";
 import { GetMealsResults, ICategory, IMeal } from "@/model";
 import { getAllCategories, getAllMeals, getMealsByCategory } from "@/api/data";
 import { formatPrice } from "@/lib/utils";
-import SkeletonCard from "@/components/menu/SkeletonCard";
 import { cartStateServices } from "@/reducers/cartSlice";
 import { useAppDispatch } from "@/stateStore";
 

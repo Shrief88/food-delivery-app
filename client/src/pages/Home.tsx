@@ -9,7 +9,6 @@ import {
   Croissant,
 } from "lucide-react";
 import burger from "../assets/images/burger.svg";
-
 import deliveryGirl from "../assets/images/hero.png";
 import serviceOne from "../assets/images/service-01.png";
 import servicsTwo from "../assets/images/service-02.png";

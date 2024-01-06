@@ -1,22 +1,25 @@
-import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useParams } from "react-router-dom";
-import { IMeal, IReview } from "@/model";
-import { getMealById, getMealReviews, getUserReview } from "@/api/data";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import { formatPrice, cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { IMeal, IReview } from "@/model";
+import { getMealById, getMealReviews, getUserReview } from "@/api/data";
 import { useAppDispatch } from "@/stateStore";
 import { cartStateServices } from "@/reducers/cartSlice";
-import Review from "@/components/layout/Review";
 import { useTypedSelector } from "@/stateStore";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { TReviewSchema, reviewSchema } from "@/validators/review";
 import useAxiosToken from "@/hooks/useAxiosToken";
-import { toast } from "sonner";
+import Review from "@/components/layout/Review";
+import { TReviewSchema, reviewSchema } from "@/validators/review";
 
+
+import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 const Meal = () => {
   const dispatch = useAppDispatch();
   const [meal, setMeal] = useState<IMeal>({} as IMeal);
