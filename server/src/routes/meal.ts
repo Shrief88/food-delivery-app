@@ -7,6 +7,7 @@ import { resizeImage } from "../middleware/imageProcessingMiddleware";
 import { uploadImage } from "../middleware/uploadImageMiddleware";
 import validateImageExisting from "../middleware/imageExistMiddlleware";
 import { setFilterObject } from "../middleware/categoryToMeal";
+import reviewRouter from "./review";
 
 const mealRouter = express.Router({
   mergeParams: true,
@@ -44,5 +45,8 @@ mealRouter.delete(
   mealValidator.deleteMeal,
   mealHandler.deleteMeal,
 );
+
+// Move all requests to api/v1/meal/:mealId/reviews to reviewRouter
+mealRouter.use("/:mealId/reviews", reviewRouter);
 
 export default mealRouter;

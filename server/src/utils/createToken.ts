@@ -8,7 +8,7 @@ interface PayloadObject {
 
 export const createAccessToken = (paylod: PayloadObject): string => {
   return jwt.sign(paylod, env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15d",
+    expiresIn: "15m",
   });
 };
 

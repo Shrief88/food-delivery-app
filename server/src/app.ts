@@ -11,6 +11,7 @@ import categoryRouter from "./routes/category";
 import mealRouter from "./routes/meal";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import reviewRouter from "./routes/review";
 import allowedOrgins from "./config/allowedOrgins";
 
 const app = express();
@@ -42,6 +43,7 @@ app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/meal", mealRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/review", reviewRouter);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the API!");
