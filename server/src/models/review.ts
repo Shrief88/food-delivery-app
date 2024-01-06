@@ -34,4 +34,12 @@ const reviewSchema = new Schema<IReview>(
   },
 );
 
+reviewSchema.pre<IReview>(/^find/, function (next) {
+  void this.populate({
+    path: "user",
+    select: "name",
+  });
+  next();
+});
+
 export const ReviewModel = mongoose.model<IReview>("Review", reviewSchema);

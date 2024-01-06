@@ -55,7 +55,8 @@ export const updateReview = [
       }
 
       // getting userId from review because we applied populate in review model to return an object with user_id
-      if (review.user.toString() !== req.user._id.toString()) {
+      const { _id } = review.user as unknown as { _id: string };
+      if (_id.toString() !== req.user._id.toString()) {
         throw new Error("This review is not belong to this user");
       }
       return true;
@@ -72,7 +73,8 @@ export const deleteReview = [
       if (!review) {
         throw new Error("Review not found");
       }
-      if (review.user.toString() !== req.user._id.toString()) {
+      const { _id } = review.user as unknown as { _id: string };
+      if (_id.toString() !== req.user._id.toString()) {
         throw new Error("This review is not belong to this user");
       }
       return true;
