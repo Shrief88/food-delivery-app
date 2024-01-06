@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import Layout from "./components/layout/Layout";
 import Meal from "./pages/Meal";
 import Verify from "./pages/Verify";
-import PersisttentLogin from "./components/PersisttentLogin";
+import PersisttentLogin from "./components/layout/PersisttentLogin";
 
 function App() {
   return (

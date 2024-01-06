@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Separator } from "../ui/separator";
 
-import MaxWidthWrapper from "../MaxWidthWrapper";
+import MaxWidthWrapper from "../layout/MaxWidthWrapper";
 import logo from "../../assets/images/res-logo.png";
 import NavItems from "./NavItems";
 import { buttonVariants } from "../ui/button";

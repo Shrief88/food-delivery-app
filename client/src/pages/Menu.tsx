@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import { GetMealsResults, ICategory, IMeal } from "@/model";
 import { getAllCategories, getAllMeals, getMealsByCategory } from "@/api/data";
 import { formatPrice } from "@/lib/utils";

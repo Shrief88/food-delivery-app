@@ -1,4 +1,4 @@
-import MaxWidthWrapper from "../MaxWidthWrapper";
+import MaxWidthWrapper from "./MaxWidthWrapper";
 import logo from "../../assets/images/res-logo.png";
 import { Facebook, Linkedin, Github } from "lucide-react";
 

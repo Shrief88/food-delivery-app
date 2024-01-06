@@ -22,7 +22,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { useAppDispatch } from "@/stateStore";
 import { activeNavItemServices } from "@/reducers/activeNavItemSlice";
 
-import MaxWidthWrapper from "../components/MaxWidthWrapper";
+import MaxWidthWrapper from "../components/layout/MaxWidthWrapper";
 import Category from "../components/home/Category";
 import Perk from "../components/home/Perk";
 import Info from "../components/home/Info";

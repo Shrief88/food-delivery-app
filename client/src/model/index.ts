@@ -59,3 +59,12 @@ export interface ICartItem {
   image : string;
 }
 
+export interface IReview {
+  _id: string;
+  title: string;
+  description?: string;
+  user: string;
+  meal: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
