@@ -106,7 +106,7 @@ const Home = () => {
           </div>
 
           <div className="hidden lg:block lg:col-span-1">
-            <img src={deliveryGirl} alt="delivery-guy" className="w-full" />
+            <img src={deliveryGirl} alt="delivery-guy" className="w-full" loading="lazy"/>
           </div>
         </div>
       </MaxWidthWrapper>
@@ -145,7 +145,7 @@ const Home = () => {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper>
-        <div className="mt-14 grid grid-cols-1 gap-y-12 sm:grid-col2-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
+        <div className="mt-14 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
           <Perk
             name="Quick Delivery"
             description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui magni delectus tenetur autem, sint veritatis!"

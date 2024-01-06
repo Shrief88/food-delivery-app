@@ -20,15 +20,18 @@ const Navbar = () => {
         <MaxWidthWrapper>
           <div className="border-b border-green-200">
             <div className="flex h-24 items-center justify-between">
-              <div className="ml-4 flex lg:ml-0 pt-2 flex-col items-center">
-                <NavLink to="/">
-                  <img src={logo} alt="Tasty Treat" className="w-12" />
-                </NavLink>
-                <p className="text-lg pt-1">Tasty Treat</p>
+              <div className="flex items-center gap-32">
+                <div className="ml-4 flex lg:ml-0 pt-2 flex-col items-center">
+                  <NavLink to="/">
+                    <img src={logo} alt="Tasty Treat" className="w-12" />
+                  </NavLink>
+                  <p className="text-lg pt-1">Tasty Treat</p>
+                </div>
+                <div className="hidden md:block md:self-stretch">
+                  <NavItems />
+                </div>
               </div>
-              <div className="hidden md:block md:self-stretch">
-                <NavItems />
-              </div>
+
               {/* TODO: ADD MOBILE NAVBAR */}
               <div className="flex items-center">
                 <div className="flex flex-1 items-center">
@@ -41,7 +44,7 @@ const Navbar = () => {
                   )}
                   <Separator orientation="vertical" />
                   {user ? (
-                    <UserAccountNav username={user.name}/>
+                    <UserAccountNav username={user.name} />
                   ) : (
                     <NavItem
                       name="Register"

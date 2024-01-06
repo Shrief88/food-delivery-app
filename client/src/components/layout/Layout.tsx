@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
+import Contact from "./Contact"
 
 import Navbar from "../navbar/Navbar"
 const Layout = () => {
@@ -8,6 +9,7 @@ const Layout = () => {
       <Navbar />
       <Outlet />
       <Toaster />
+      <Contact />
     </div>
   )
 }
