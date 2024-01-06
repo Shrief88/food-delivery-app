@@ -17,3 +17,9 @@ export const getMealById = async (id: string): Promise<IMeal> =>
 
 export const getMealReviews = async (id: string): Promise<IReview[]> =>
   (await axiosClient.get(`/meal/${id}/reviews`)).data.data;
+
+export const getUserReview = async (
+  userId: string,
+  mealId: string
+): Promise<IReview[]> =>
+  (await axiosClient.get(`/review/?user=${userId}&meal=${mealId}`)).data.data;

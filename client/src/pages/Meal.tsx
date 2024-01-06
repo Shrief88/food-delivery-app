@@ -2,26 +2,80 @@ import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IMeal, IReview } from "@/model";
-import { getMealById, getMealReviews } from "@/api/data";
+import { getMealById, getMealReviews, getUserReview } from "@/api/data";
 import { formatPrice, cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useAppDispatch } from "@/stateStore";
 import { cartStateServices } from "@/reducers/cartSlice";
+import Review from "@/components/layout/Review";
+import { useTypedSelector } from "@/stateStore";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TReviewSchema, reviewSchema } from "@/validators/review";
+import useAxiosToken from "@/hooks/useAxiosToken";
+import { toast } from "sonner";
 
 const Meal = () => {
   const dispatch = useAppDispatch();
   const [meal, setMeal] = useState<IMeal>({} as IMeal);
   const [reviews, setReviews] = useState<IReview[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasUserReview, setHasUserReview] = useState(false);
   const [activeButton, setActiveButton] = useState("description");
+  const user = useTypedSelector((state) => state.authState.user);
   const { mealId } = useParams();
+  const axiosClientWithToken = useAxiosToken();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TReviewSchema>({
+    resolver: zodResolver(reviewSchema),
+  });
+
+  const onSubmit = async (data: TReviewSchema) => {
+    try {
+      const response = await axiosClientWithToken.post(
+        `/meal/${mealId}/reviews`,
+        data
+      );
+      if (response.status === 201) {
+        toast.success("Review has been submitted");
+      }
+      response.data.data.user = {
+        _id: user?._id,
+        name: user?.name,
+      };
+      setReviews([response.data.data, ...reviews]);
+      setHasUserReview(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const responseMeal = await getMealById(mealId as string);
         const responseReview = await getMealReviews(mealId as string);
+        if (user) {
+          const userReview = await getUserReview(
+            user?._id as string,
+            mealId as string
+          );
+          if (userReview.length > 0){
+            setHasUserReview(true);
+            const index = responseReview.findIndex(review => review.user._id === user._id);
+            const tmp = responseReview[index];
+            responseReview[index] = responseReview[0];
+            responseReview[0] = tmp;
+          }
+        }
+
+       
         setMeal(responseMeal);
         setReviews(responseReview);
         setLoading(false);
@@ -30,7 +84,7 @@ const Meal = () => {
       }
     };
     fetchData();
-  }, [mealId]);
+  }, [ user]);
 
   const toggleActiveButton = (button: string) => {
     if (button === activeButton) return;
@@ -95,16 +149,57 @@ const Meal = () => {
             </div>
             <Separator className="my-4" />
             {activeButton === "description" ? (
-                <p className="text-muted-foreground text-base">
-                  {meal.description}
-                </p>
-              ) : (
-                reviews.length === 0 ? (
-                  <p className="text-muted-foreground text-base text-center">No reviews</p>
-                ): (
-                  <div>review</div>
-                )
-              )}
+              <p className="text-muted-foreground text-base">
+                {meal.description}
+              </p>
+            ) : (
+              <>
+                {user ? (
+                  hasUserReview ? null : (
+                    <form
+                      onSubmit={handleSubmit(onSubmit)}
+                      className="space-y-3 mb-7"
+                    >
+                      <Input
+                        {...register("title")}
+                        className={cn({
+                          "focus-visible:ring-red-500": errors.title,
+                        })}
+                        placeholder="Leave a review"
+                        id="title"
+                      />
+                      <Input
+                        {...register("description")}
+                        className={cn({
+                          "focus-visible:ring-red-500": errors.description,
+                        })}
+                        placeholder="(Optional) Leave a description of your review"
+                        id="description"
+                      />
+                      <Button className="mt-4">Submit</Button>
+                    </form>
+                  )
+                ) : (
+                  <p className="text-center mb-5">
+                    please login to leave a review
+                  </p>
+                )}
+                {reviews.length === 0 ? (
+                  <p className="text-muted-foreground text-base text-center">
+                    No reviews
+                  </p>
+                ) : (
+                  reviews.map((review, index) => (
+                    <div key={review._id}>
+                      <Review review={review} userId={user?._id as string} />
+                      {index !== reviews.length - 1 && (
+                        <Separator className="my-4" />
+                      )}
+                    </div>
+                  ))
+                )}
+              </>
+            )}
           </div>
         </MaxWidthWrapper>
       )}

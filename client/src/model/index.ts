@@ -63,7 +63,10 @@ export interface IReview {
   _id: string;
   title: string;
   description?: string;
-  user: string;
+  user: {
+    _id: string;
+    name: string;
+  }
   meal: string;
   createdAt: Date;
   updatedAt: Date;
