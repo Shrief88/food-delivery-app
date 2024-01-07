@@ -1,13 +1,29 @@
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn, formatPrice } from "@/lib/utils";
 import { useTypedSelector } from "@/stateStore";
+import { checkoutSchema, TCheckoutSchema } from "@/validators/checkout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 
 const Cart = () => {
   const cartItems = useTypedSelector((state) => state.cartState.cartItems);
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
   const transactionFee = 1;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TCheckoutSchema>({
+    resolver: zodResolver(checkoutSchema),
+  });
+
+  const onSubmit = async (data: TCheckoutSchema) => {
+    console.log(data);
+  };
 
   return (
     <MaxWidthWrapper>
@@ -111,9 +127,64 @@ const Cart = () => {
                   {formatPrice(transactionFee + totalPrice)}
                 </p>
               </div>
-              
             </div>
-            <Button className="w-full mt-6" size={"lg"}>Checkout</Button>
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+              <Input
+                {...register("address")}
+                className={cn({
+                  "focus-visible:ring-red-500": errors.address,
+                })}
+                placeholder="Enter your address"
+                id="address"
+              />
+              {errors.address && (
+                <span className="text-sm text-red-500 font-Istok">
+                  {errors.address.message}
+                </span>
+              )}
+              <Input
+                {...register("phone")}
+                className={cn({
+                  "focus-visible:ring-red-500": errors.phone,
+                })}
+                placeholder="Enter your phone"
+                id="phone"
+              />
+              {errors.phone && (
+                <span className="text-sm text-red-500 font-Istok">
+                  {errors.phone.message}
+                </span>
+              )}
+              <Input
+                {...register("city")}
+                className={cn({
+                  "focus-visible:ring-red-500": errors.city,
+                })}
+                placeholder="Enter your city"
+                id="city"
+              />
+              {errors.city && (
+                <span className="text-sm text-red-500 font-Istok">
+                  {errors.city.message}
+                </span>
+              )}
+              <Input
+                {...register("postalCode")}
+                className={cn({
+                  "focus-visible:ring-red-500": errors.postalCode,
+                })}
+                placeholder="Enter your postal code"
+                id="postalCode"
+              />
+              {errors.postalCode && (
+                <span className="text-sm text-red-500 font-Istok">
+                  {errors.postalCode.message}
+                </span>
+              )}
+              <Button className="w-full mt-6" size={"lg"}>
+                Checkout
+              </Button>
+            </form>
           </section>
         </div>
       </div>

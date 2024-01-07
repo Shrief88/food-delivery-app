@@ -12,7 +12,6 @@ import Cart from "./pages/Cart";
 import RequireAuth from "./components/layout/RequireAuth";
 
 function App() {
-  console.log(JSON.parse(localStorage.getItem("cart") as string).cartItems);
   return (
     <div className="h-full">
       <div className="relative h-full antialiased font-RocknRoll">
