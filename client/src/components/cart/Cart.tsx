@@ -72,18 +72,11 @@ const Cart = () => {
               <SheetFooter>
                 <SheetTrigger asChild>
                   <NavLink
-                    to="/food"
+                    to="/cart"
                     className={cn(
                       "mt-3 w-full",
                       buttonVariants({ variant: "destructive" })
                     )}
-                    onClick={() =>
-                      dispatch(
-                        activeNavItemServices.actions.SetActiveNavItem(
-                          "/checkout"
-                        )
-                      )
-                    }
                   >
                     Continue to checkout
                   </NavLink>

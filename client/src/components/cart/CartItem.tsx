@@ -9,8 +9,8 @@ const CartItem = (props: ICartItem) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="space-y-3 py-2 flex justify-between">
-      <div className="flex items-center space-x-4">
+    <div className="py-2 flex justify-between">
+      <div className="flex items-center space-x-4 ">
         <div className="relative aspect-square h-16 w-16 min-w-fit overflow-hidden rounded">
           <img src={props.image} />
         </div>

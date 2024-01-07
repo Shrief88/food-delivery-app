@@ -54,6 +54,7 @@ export interface LoginResponse {
 export interface ICartItem {
   name : string;
   mealId : string;
+  category: string;
   quantity: number;
   price: number;
   image : string;

@@ -8,8 +8,11 @@ import Layout from "./components/layout/Layout";
 import Meal from "./pages/Meal";
 import Verify from "./pages/Verify";
 import PersisttentLogin from "./components/layout/PersisttentLogin";
+import Cart from "./pages/Cart";
+import RequireAuth from "./components/layout/RequireAuth";
 
 function App() {
+  console.log(JSON.parse(localStorage.getItem("cart") as string).cartItems);
   return (
     <div className="h-full">
       <div className="relative h-full antialiased font-RocknRoll">
@@ -24,6 +27,9 @@ function App() {
                   <Route path="/menu/:mealId" element={<Meal />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route element={<RequireAuth />}>
+                    <Route path="/cart" element={<Cart />} />
+                  </Route>
                 </Route>
               </Route>
             </Routes>

@@ -10,9 +10,11 @@ interface cartState {
 }
 
 const initialState: cartState = {
-  cartItems: [],
+  cartItems: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart") as string).cartItems
+    : [],
   user: "anonymous",
-  itemsCount: 0,
+  itemsCount: localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart") as string).itemsCount : 0
 };
 
 const cartStateSlice = createSlice({
@@ -43,7 +45,6 @@ const cartStateSlice = createSlice({
       }
       toast.success("Added to cart");
       state.itemsCount++;
-
     },
 
     removeAllItem: (state, action: { payload: string }) => {

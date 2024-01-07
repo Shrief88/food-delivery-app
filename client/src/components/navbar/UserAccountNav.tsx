@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,7 +50,7 @@ const UserAccountNav = (props: UserAccountNavProps) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>{props.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem><NavLink to={"/cart"}>Cart</NavLink></DropdownMenuItem>
         <DropdownMenuItem onClick={logoutUser}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>

@@ -102,6 +102,7 @@ const Meal = () => {
         quantity: 1,
         price: meal.price,
         image: meal.image,
+        category: meal.category.name,
       })
     );
   };
