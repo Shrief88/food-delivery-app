@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
-import env from "../src/config/validateEnv";
+import env from "./config/validateEnv";
 import errorMiddleware from "./middleware/errorMiddleware";
 import categoryRouter from "./routes/category";
 import mealRouter from "./routes/meal";
