@@ -125,7 +125,7 @@ export const checkoutSession: RequestHandler = async (
       },
     });
 
-    res.status(200).json({ data: session });
+    res.status(200).json({ data: session.url });
   } catch (err) {
     next(err);
   }
@@ -149,9 +149,11 @@ export const webhookCheckout: RequestHandler = async (req, res, next) => {
         session.metadata?.cartItems as unknown as string,
       );
 
+      console.log(cartItems);
       const shippingInfo = JSON.parse(
         session.metadata?.shippingInfo as unknown as string,
       );
+      console.log(shippingInfo);
 
       const order = await OrderModel.create({
         cartItems,
@@ -164,6 +166,7 @@ export const webhookCheckout: RequestHandler = async (req, res, next) => {
         paidAt: Date.now(),
       });
 
+      console.log("Order created", order);
       if (order) {
         const bulkOption = order.cartItems.map((item) => {
           return {
