@@ -1,5 +1,5 @@
 import dbConnection from "./config/dbConnection";
-import env from "../src/config/validateEnv";
+import env from "./config/validateEnv";
 import app from "./app";
 
 void dbConnection();
