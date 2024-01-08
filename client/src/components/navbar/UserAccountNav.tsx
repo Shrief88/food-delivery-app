@@ -50,7 +50,9 @@ const UserAccountNav = (props: UserAccountNavProps) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>{props.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem><NavLink to={"/cart"}>Cart</NavLink></DropdownMenuItem>
+        <NavLink to={"/cart"}>
+          <DropdownMenuItem className="cursor-pointer">Cart</DropdownMenuItem>
+        </NavLink>
         <DropdownMenuItem onClick={logoutUser}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>

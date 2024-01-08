@@ -7,11 +7,14 @@ import { checkoutSchema, TCheckoutSchema } from "@/validators/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
+import useAxiosToken from "@/hooks/useAxiosToken";
+import { toast } from "sonner";
 
 const Cart = () => {
   const cartItems = useTypedSelector((state) => state.cartState.cartItems);
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
   const transactionFee = 1;
+  const axioswithToken = useAxiosToken();
 
   const {
     register,
@@ -22,7 +25,18 @@ const Cart = () => {
   });
 
   const onSubmit = async (data: TCheckoutSchema) => {
-    console.log(data);
+    try {
+      const bodyData = {
+        cartItems: cartItems,
+        shippingInfo: data,
+      };
+      toast.loading("Redirecting...", { duration: Infinity });
+      const response = (await axioswithToken.post("/order/checkout", bodyData)).data.data;
+      window.open(response.url, "_blank");
+      toast.dismiss();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

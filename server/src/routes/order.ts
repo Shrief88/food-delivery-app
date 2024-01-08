@@ -10,7 +10,7 @@ orderRouter.use(authHandler.protectRoute);
 
 orderRouter.get("/", orderHandler.getOrders);
 
-orderRouter.get(
+orderRouter.post(
   "/checkout",
   authHandler.restrictTo("user"),
   orderValidator.checkoutSession,
