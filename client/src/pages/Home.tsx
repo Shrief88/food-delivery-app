@@ -6,7 +6,7 @@ import {
   CarFront,
   Pizza,
   Soup,
-  Croissant,
+  Drumstick,
 } from "lucide-react";
 import burger from "../assets/images/burger.svg";
 import deliveryGirl from "../assets/images/hero.png";
@@ -114,7 +114,7 @@ const Home = () => {
         <div className="grid grid-cols-2 gap-4 mt-14 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
           <Category name="Burger" icon={burger} />
           <Category name="Pizza" icon={Pizza} />
-          <Category name="Bread" icon={Croissant} />
+          <Category name="Fried Chicken" icon={Drumstick} />
           <Category name="Asian Food" icon={Soup} />
         </div>
       </MaxWidthWrapper>
