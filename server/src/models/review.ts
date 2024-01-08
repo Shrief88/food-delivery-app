@@ -37,7 +37,7 @@ const reviewSchema = new Schema<IReview>(
 reviewSchema.pre<IReview>(/^find/, function (next) {
   void this.populate({
     path: "user",
-    select: "name",
+    select: "name", 
   });
   next();
 });

@@ -17,4 +17,6 @@ export default cleanEnv(process.env, {
   EMAIL_USER: str(),
   EMAIL_PASSWORD: str(),
   CLIENT_URL: str(),
+
+  STRIPE_SECRET_KEY: str(),
 });
