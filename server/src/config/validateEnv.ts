@@ -19,4 +19,5 @@ export default cleanEnv(process.env, {
   CLIENT_URL: str(),
 
   STRIPE_SECRET_KEY: str(),
+  STRIPE_WEBHOOK_SECRET: str(),
 });

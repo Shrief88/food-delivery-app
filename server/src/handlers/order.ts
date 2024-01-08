@@ -5,6 +5,7 @@ import { type CustomRequest } from "./auth";
 import { type IOrder, OrderModel } from "../models/order";
 import createHttpError from "http-errors";
 import env from "../config/validateEnv";
+import { MealModel } from "../models/meal";
 
 export const getOrders: RequestHandler = async (
   req: CustomRequest,
@@ -114,14 +115,71 @@ export const checkoutSession: RequestHandler = async (
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: `${req.protocol}://${req.get("host")}/success`,
-      cancel_url: `${req.protocol}://${req.get("host")}/cart`,
+      success_url: `${env.CLIENT_URL}/order/success`,
+      cancel_url: `${env.CLIENT_URL}/cart`,
       customer_email: req.user.email,
       client_reference_id: req.user._id,
-      metadata: shippingInfo,
+      metadata: {
+        cartItems: JSON.stringify(cartItems),
+        shippingInfo: JSON.stringify(shippingInfo),
+      },
     });
 
     res.status(200).json({ data: session });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const webhookCheckout: RequestHandler = async (req, res, next) => {
+  const sig = req.headers["stripe-signature"] as string;
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body as string,
+      sig,
+      env.STRIPE_WEBHOOK_SECRET,
+    );
+    if (event?.type === "checkout.session.completed") {
+      const session = event.data.object;
+      const userId = session.client_reference_id;
+      const price = (session.amount_total ?? 100) / 100;
+
+      const cartItems = JSON.parse(
+        session.metadata?.cartItems as unknown as string,
+      );
+
+      const shippingInfo = JSON.parse(
+        session.metadata?.shippingInfo as unknown as string,
+      );
+
+      const order = await OrderModel.create({
+        cartItems,
+        shippingInfo,
+        transactionFee: 1,
+        shippingPrice: 0,
+        totalPrice: price,
+        user: userId,
+        isPaid: true,
+        paidAt: Date.now(),
+      });
+
+      if (order) {
+        const bulkOption = order.cartItems.map((item) => {
+          return {
+            updateOne: {
+              filter: { _id: item.mealId },
+              update: {
+                $inc: { quantity: -item.quantity, sold: +item.quantity },
+              },
+            },
+          };
+        });
+        await MealModel.bulkWrite(bulkOption, {});
+      }
+
+      res.status(200).json({ success: true });
+    }
   } catch (err) {
     next(err);
   }

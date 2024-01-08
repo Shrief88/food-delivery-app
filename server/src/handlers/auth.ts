@@ -210,6 +210,11 @@ export const protectRoute: RequestHandler = async (
           throw createHttpError(401, "user is not verified");
         }
 
+        const cookies = req.cookies;
+        if (user.refreshToken !== cookies.refreshToken) {
+          throw createHttpError(401, "user is not authenticated");
+        }
+
         // verify if password has been changed after token was issued
         if (user.passwordChangedAt) {
           const changedTimestamp = Math.floor(

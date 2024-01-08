@@ -14,6 +14,7 @@ import userRouter from "./routes/user";
 import reviewRouter from "./routes/review";
 import orderRouter from "./routes/order";
 import allowedOrgins from "./config/allowedOrgins";
+import { webhookCheckout } from "./handlers/order";
 
 const app = express();
 
@@ -33,6 +34,12 @@ app.use(cors(corsOptions));
 if (env.isDevelopment) {
   app.use(morgan("dev"));
 }
+
+app.post(
+  "/webhook-checkout",
+  express.raw({ type: "application/json" }),
+  webhookCheckout,
+);
 
 app.use(express.json());
 app.use(cookieParser());

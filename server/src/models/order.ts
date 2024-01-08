@@ -3,16 +3,18 @@ import mongoose from "mongoose";
 export interface IOrder extends mongoose.Document {
   cartItems: [
     {
-      meal: mongoose.Schema.Types.ObjectId;
-      qunatity: number;
+      name: string;
+      mealId: mongoose.Schema.Types.ObjectId;
+      quantity: number;
       price: number;
+      image: string;
     },
   ];
   totalPrice: number;
   user: mongoose.Schema.Types.ObjectId;
   shippingPrice: number;
   transactionFee: number;
-  shippingAddress: {
+  shippingInfo: {
     address: string;
     city: string;
     postalCode: string;
@@ -35,17 +37,25 @@ const orderSchema = new mongoose.Schema<IOrder>(
     },
     cartItems: [
       {
-        meal: {
+        mealId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Meal",
           required: true,
         },
-        qunatity: {
+        quantity: {
           type: Number,
           required: true,
         },
         price: {
           type: Number,
+          required: true,
+        },
+        image: {
+          type: String,
+          required: true,
+        },
+        name: {
+          type: String,
           required: true,
         },
       },
@@ -62,11 +72,11 @@ const orderSchema = new mongoose.Schema<IOrder>(
       type: Number,
       required: true,
     },
-    shippingAddress: {
+    shippingInfo: {
       address: { type: String, required: true },
       phone: { type: String, required: true },
       city: { type: String, required: true },
-      postcode: { type: String, required: true },
+      postalCode: { type: String, required: true },
     },
     isPaid: {
       type: Boolean,
