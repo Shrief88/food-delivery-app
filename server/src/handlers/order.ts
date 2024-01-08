@@ -125,6 +125,17 @@ export const checkoutSession: RequestHandler = async (
       },
     });
 
+    const order = await OrderModel.create({
+      cartItems,
+      shippingInfo,
+      transactionFee: 1,
+      shippingPrice: 0,
+      totalPrice: totalPrice + shippingPrice + transactionFee,
+      user: req.user._id,
+      isPaid: true,
+      paidAt: Date.now(),
+    });
+
     res.status(200).json({ data: session.url });
   } catch (err) {
     next(err);
@@ -155,35 +166,40 @@ export const webhookCheckout: RequestHandler = async (req, res, next) => {
       );
       console.log(shippingInfo);
 
-      const order = await OrderModel.create({
-        cartItems,
-        shippingInfo,
-        transactionFee: 1,
-        shippingPrice: 0,
-        totalPrice: price,
-        user: userId,
-        isPaid: true,
-        paidAt: Date.now(),
-      });
-
-      console.log("Order created", order);
-      if (order) {
-        const bulkOption = order.cartItems.map((item) => {
-          return {
-            updateOne: {
-              filter: { _id: item.mealId },
-              update: {
-                $inc: { quantity: -item.quantity, sold: +item.quantity },
-              },
-            },
-          };
+      try {
+        const order = await OrderModel.create({
+          cartItems,
+          shippingInfo,
+          transactionFee: 1,
+          shippingPrice: 0,
+          totalPrice: price,
+          user: userId,
+          isPaid: true,
+          paidAt: Date.now(),
         });
-        await MealModel.bulkWrite(bulkOption, {});
+      } catch (err) {
+        console.log(err);
       }
+
+      console.log("Order created");
+      // if (order) {
+      //   const bulkOption = order.cartItems.map((item) => {
+      //     return {
+      //       updateOne: {
+      //         filter: { _id: item.mealId },
+      //         update: {
+      //           $inc: { quantity: -item.quantity, sold: +item.quantity },
+      //         },
+      //       },
+      //     };
+      //   });
+      //   await MealModel.bulkWrite(bulkOption, {});
+      // }
 
       res.status(200).json({ success: true });
     }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
