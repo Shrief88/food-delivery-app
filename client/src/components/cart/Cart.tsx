@@ -5,7 +5,6 @@ import emptyCard from "../../assets/images/emptyCart.svg";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -42,7 +41,7 @@ const Cart = () => {
         <SheetHeader>
           <SheetTitle className="text-center">Cart ({itemsCount})</SheetTitle>
         </SheetHeader>
-        <SheetDescription className="h-full">
+        <div className="h-full">
           {itemsCount > 0 ? (
             <div className="space-y-3">
               <p className="text-base font-bold">Cart Items</p>
@@ -54,7 +53,7 @@ const Cart = () => {
                 </ScrollArea>
               </div>
               <Separator />
-              <div className="space-y-1.5 text-base">
+              <div className="space-y-1.5 text-base text-muted-foreground">
                 <div className="flex">
                   <span className="flex-1">Shopping</span>
                   <span>{shipping > 0 ? formatPrice(shipping) : "Free"}</span>
@@ -108,7 +107,7 @@ const Cart = () => {
               </SheetFooter>
             </div>
           )}
-        </SheetDescription>
+        </div>
       </SheetContent>
     </Sheet>
   );

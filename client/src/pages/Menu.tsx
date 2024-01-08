@@ -10,7 +10,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
@@ -142,9 +141,13 @@ const Menu = () => {
       const mappedPaginationItems: JSX.Element[] = [];
       for (let i = 1; i <= totalPages; i++) {
         mappedPaginationItems.push(
-          <PaginationItem key={i} onClick={() => handlePaginationChange(i)}>
-            <PaginationLink>{i}</PaginationLink>
-          </PaginationItem>
+          <PaginationLink
+            key={i}
+            onClick={() => handlePaginationChange(i)}
+            className="cursor-pointer"
+          >
+            {i}
+          </PaginationLink>
         );
       }
       setPaginationItems(mappedPaginationItems);
@@ -158,7 +161,7 @@ const Menu = () => {
         mealId: meal._id,
         quantity: 1,
         price: meal.price,
-        image: meal.image,  
+        image: meal.image,
         category: meal.category.name,
       })
     );
@@ -229,19 +232,15 @@ const Menu = () => {
         <Pagination>
           <PaginationContent>
             {currentPage > 1 && (
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => handlePaginationChange(currentPage - 1)}
-                />
-              </PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePaginationChange(currentPage - 1)}
+              />
             )}
             {paginationItems}
             {currentPage < totalPages && (
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => handlePaginationChange(currentPage + 1)}
-                />
-              </PaginationItem>
+              <PaginationNext
+                onClick={() => handlePaginationChange(currentPage + 1)}
+              />
             )}
           </PaginationContent>
         </Pagination>
