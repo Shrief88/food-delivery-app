@@ -111,6 +111,7 @@ export const checkoutSession: RequestHandler = async (
         quantity: 1,
       },
     ];
+    console.log(req.user._id);
 
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
@@ -118,25 +119,14 @@ export const checkoutSession: RequestHandler = async (
       success_url: `${env.CLIENT_URL}/order/success`,
       cancel_url: `${env.CLIENT_URL}/cart`,
       customer_email: req.user.email,
-      client_reference_id: req.user._id,
+      client_reference_id: req.user._id.toString(),
       metadata: {
         cartItems: JSON.stringify(cartItems),
         shippingInfo: JSON.stringify(shippingInfo),
       },
     });
 
-    const order = await OrderModel.create({
-      cartItems,
-      shippingInfo,
-      transactionFee: 1,
-      shippingPrice: 0,
-      totalPrice: totalPrice + shippingPrice + transactionFee,
-      user: req.user._id,
-      isPaid: true,
-      paidAt: Date.now(),
-    });
-
-    res.status(200).json({ data: session.url });
+    res.status(200).json({ data: session });
   } catch (err) {
     next(err);
   }
