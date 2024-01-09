@@ -10,21 +10,17 @@ const PersisttentLogin = () => {
       try {
         setLoading(true);
         await refresh();
-        setLoading(false);
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     verifyRefreshToken();
-    
-  }, [refresh]);
+  }, []);
 
-  return (
-    <>
-      {loading ? null : <Outlet />}
-    </>
-  );
+  return <>{loading ? null : <Outlet />}</>;
 };
 
 export default PersisttentLogin;
