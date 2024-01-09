@@ -6,6 +6,7 @@ import { type IOrder, OrderModel } from "../models/order";
 import createHttpError from "http-errors";
 import env from "../config/validateEnv";
 import { MealModel } from "../models/meal";
+import { sendEmail } from "../utils/sendEmial";
 
 export const getOrders: RequestHandler = async (
   req: CustomRequest,
@@ -111,7 +112,6 @@ export const checkoutSession: RequestHandler = async (
         quantity: 1,
       },
     ];
-    console.log(req.user._id);
 
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
@@ -150,41 +150,76 @@ export const webhookCheckout: RequestHandler = async (req, res, next) => {
         session.metadata?.cartItems as unknown as string,
       );
 
-      console.log(cartItems);
       const shippingInfo = JSON.parse(
         session.metadata?.shippingInfo as unknown as string,
       );
-      console.log(shippingInfo);
+
+      const order = await OrderModel.create({
+        cartItems,
+        shippingInfo,
+        transactionFee: 1,
+        shippingPrice: 0,
+        totalPrice: price,
+        user: userId,
+        isPaid: true,
+        paidAt: Date.now(),
+      });
+
+      if (order) {
+        const bulkOption = order.cartItems.map((item) => {
+          return {
+            updateOne: {
+              filter: { _id: item.mealId },
+              update: {
+                $inc: { quantity: -item.quantity, sold: +item.quantity },
+              },
+            },
+          };
+        });
+        await MealModel.bulkWrite(bulkOption, {});
+      }
+
+      const meals = order.cartItems
+        .map((item) => {
+          return `
+        <tr>
+          <td>${item.name}</td>
+          <td>${item.quantity}</td>
+          <td>${item.price}</td>
+        </tr>
+        `;
+        })
+        .join("");
 
       try {
-        const order = await OrderModel.create({
-          cartItems,
-          shippingInfo,
-          transactionFee: 1,
-          shippingPrice: 0,
-          totalPrice: price,
-          user: userId,
-          isPaid: true,
-          paidAt: Date.now(),
+        await sendEmail({
+          email: req.body.email,
+          subject: "Your Order reciept",
+          content: `<h1>Thank you for your order</h1>
+            <p>Your order has been placed successfully</p>
+            <p>Here is your order reciept</p>
+            <table>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+              ${meals}
+            </table>
+            <h3>Shipping to: ${order.shippingInfo.address}</h3>
+            <h3>Your phone Number: ${order.shippingInfo.phone}</h3>
+            <h3>shippingPrice: ${order.shippingPrice}</h3>
+            <h3>TransactionFee: ${order.transactionFee}</h3>
+            <h3>TotalPrice: ${order.totalPrice}</h3>
+            <h3>Order ID: ${order._id}</h3>
+
+            <span>Thank you for shopping with us, If there is any problem with your order please contact us</span>
+          `,
         });
       } catch (err) {
         console.log(err);
+        throw createHttpError(500, "failed to send email");
       }
-
-      console.log("Order created");
-      // if (order) {
-      //   const bulkOption = order.cartItems.map((item) => {
-      //     return {
-      //       updateOne: {
-      //         filter: { _id: item.mealId },
-      //         update: {
-      //           $inc: { quantity: -item.quantity, sold: +item.quantity },
-      //         },
-      //       },
-      //     };
-      //   });
-      //   await MealModel.bulkWrite(bulkOption, {});
-      // }
 
       res.status(200).json({ success: true });
     }
