@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://food-delivery-2arj.onrender.com";
+const BASE_URL = "https://food-delivery-2arj.onrender.com/api/v1";
 
 export const axiosClient = axios.create({
   baseURL: BASE_URL,
