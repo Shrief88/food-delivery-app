@@ -34,7 +34,9 @@ const Login = () => {
 
   const onSubmit = async (data: TLoginSchema) => {
     try {
+      toast.loading("Logging in...", { duration: Infinity });
       const response = await login(data);
+      toast.dismiss();
       dispatch(authStateServices.actions.setAuthState(response));
       toast.success("Logged in successfully");
       navigate(from, { replace: true });
@@ -118,10 +120,6 @@ const Login = () => {
                 <Button className="mt-4">Log in</Button>
               </div>
             </form>
-            <p>
-              Don't have an account?{" "}
-              <NavLink to="/signup">Register here</NavLink>
-            </p>
           </div>
         </div>
       </div>
