@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { IReview } from "@/model";
 import useAxiosToken from "@/hooks/useAxiosToken";
