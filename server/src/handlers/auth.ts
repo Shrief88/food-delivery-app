@@ -113,8 +113,6 @@ export const login: RequestHandler = async (req, res, next) => {
         sameSite: "none",
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        domain:
-          "food-delivery-app-dyvo-qawht6yq7-shrief-essams-projects.vercel.app",
       })
       .json({ user: sanitizedUser, accessToken });
   } catch (err) {
