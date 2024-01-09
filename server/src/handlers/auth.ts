@@ -116,7 +116,7 @@ export const login: RequestHandler = async (req, res, next) => {
         domain:
           "food-delivery-app-dyvo-qawht6yq7-shrief-essams-projects.vercel.app",
       })
-      .json({ usader: sanitizedUser, accessToken });
+      .json({ user: sanitizedUser, accessToken });
   } catch (err) {
     next(err);
   }
