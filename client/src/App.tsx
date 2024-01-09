@@ -10,6 +10,7 @@ import Verify from "./pages/Verify";
 import PersisttentLogin from "./components/layout/PersisttentLogin";
 import Cart from "./pages/Cart";
 import RequireAuth from "./components/layout/RequireAuth";
+import Success from "./pages/Success";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route element={<RequireAuth />}>
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/success" element={<Success />} />
                   </Route>
                 </Route>
               </Route>

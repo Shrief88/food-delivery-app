@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import useAxiosToken from "@/hooks/useAxiosToken";
 import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 const Cart = () => {
   const cartItems = useTypedSelector((state) => state.cartState.cartItems);
@@ -32,10 +33,15 @@ const Cart = () => {
       };
       toast.loading("Redirecting...", { duration: Infinity });
       const response = (await axioswithToken.post("/order/checkout", bodyData)).data.data;
-      window.open(response.url, "_blank");
-      toast.dismiss();
+      window.open(response, "_blank");
     } catch (err) {
+      const error = err as AxiosError<unknown>;
+      if ((error.response?.status as number) === 401) {
+        toast.error("Your token has expired, please logout and login again");
+      }
       console.log(err);
+    }finally{
+      toast.dismiss();
     }
   };
 

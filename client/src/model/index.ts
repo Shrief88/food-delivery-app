@@ -41,23 +41,22 @@ export interface IUser {
   _id: string;
   name: string;
   slug: string;
-  email : string;
-  image : string;
+  email: string;
+  image: string;
 }
 
 export interface LoginResponse {
   accessToken: string;
-  user : IUser
+  user: IUser;
 }
 
-
 export interface ICartItem {
-  name : string;
-  mealId : string;
+  name: string;
+  mealId: string;
   category: string;
   quantity: number;
   price: number;
-  image : string;
+  image: string;
 }
 
 export interface IReview {
@@ -67,8 +66,37 @@ export interface IReview {
   user: {
     _id: string;
     name: string;
-  }
+  };
   meal: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IOrder {
+  _id: string;
+  cartItems: [
+    {
+      name: string;
+      mealId: string;
+      quantity: number;
+      price: number;
+      image: string;
+    }
+  ];
+  totalPrice: number;
+  user: string;
+  shippingPrice: number;
+  transactionFee: number;
+  shippingInfo: {
+    address: string;
+    city: string;
+    postalCode: string;
+    phone: string;
+  };
+  isPaid: boolean;
+  paidAt?: Date;
+  isDelivered: boolean;
+  deliveredAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }

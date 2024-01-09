@@ -18,8 +18,8 @@ import useAxiosToken from "@/hooks/useAxiosToken";
 import Review from "@/components/layout/Review";
 import { TReviewSchema, reviewSchema } from "@/validators/review";
 
-
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
+import { AxiosError } from "axios";
 const Meal = () => {
   const dispatch = useAppDispatch();
   const [meal, setMeal] = useState<IMeal>({} as IMeal);
@@ -54,6 +54,10 @@ const Meal = () => {
       setReviews([response.data.data, ...reviews]);
       setHasUserReview(true);
     } catch (err) {
+      const error = err as AxiosError<unknown>;
+      if ((error.response?.status as number) === 401) {
+        toast.error("Your token has expired, please logout and login again");
+      }
       console.log(err);
     }
   };
@@ -69,16 +73,17 @@ const Meal = () => {
             user?._id as string,
             mealId as string
           );
-          if (userReview.length > 0){
+          if (userReview.length > 0) {
             setHasUserReview(true);
-            const index = responseReview.findIndex(review => review.user._id === user._id);
+            const index = responseReview.findIndex(
+              (review) => review.user._id === user._id
+            );
             const tmp = responseReview[index];
             responseReview[index] = responseReview[0];
             responseReview[0] = tmp;
           }
         }
 
-       
         setMeal(responseMeal);
         setReviews(responseReview);
         setLoading(false);
@@ -87,7 +92,7 @@ const Meal = () => {
       }
     };
     fetchData();
-  }, [ user]);
+  }, [mealId, user]);
 
   const toggleActiveButton = (button: string) => {
     if (button === activeButton) return;
@@ -110,7 +115,7 @@ const Meal = () => {
     <>
       {!loading && (
         <MaxWidthWrapper>
-          <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 items-center">
             <div className="flex justify-center">
               <img src={meal.image} className="w-96" />
             </div>

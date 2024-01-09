@@ -14,7 +14,9 @@ const initialState: cartState = {
     ? JSON.parse(localStorage.getItem("cart") as string).cartItems
     : [],
   user: "anonymous",
-  itemsCount: localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart") as string).itemsCount : 0
+  itemsCount: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart") as string).itemsCount
+    : 0,
 };
 
 const cartStateSlice = createSlice({
@@ -74,6 +76,11 @@ const cartStateSlice = createSlice({
         .filter((item) => item.quantity > 0);
       state.itemsCount--;
       toast.success("Item removed from cart");
+    },
+
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.itemsCount = 0;
     },
   },
 });

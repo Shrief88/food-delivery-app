@@ -9,7 +9,7 @@ const useCheckToken = () => {
     if (token) {
       navigate("/");
     }
-  }, [token]);
+  }, [navigate, token]);
 };
 
 export default useCheckToken;

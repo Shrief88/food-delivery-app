@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 
@@ -15,7 +15,6 @@ import { login } from "@/api/auth";
 import { useAppDispatch } from "@/stateStore";
 import { authStateServices } from "@/reducers/authStateSlice";
 import useCheckToken from "@/hooks/useCheckToken";
-
 
 const Login = () => {
   useCheckToken();
@@ -73,6 +72,12 @@ const Login = () => {
           <div className="flex flex-col items-center text-center space-y-4">
             <img src={logo} className="h-20 w-20" />
             <h1 className="text-2xl font-bold ">Log in to your account</h1>
+            <NavLink
+              className="text-blue-700 text-sm hover:underline"
+              to={"/signup"}
+            >
+              Don't have an account? Sign up here
+            </NavLink>
           </div>
           <div className="grid gap-6 mt-5">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -113,6 +118,10 @@ const Login = () => {
                 <Button className="mt-4">Log in</Button>
               </div>
             </form>
+            <p>
+              Don't have an account?{" "}
+              <NavLink to="/signup">Register here</NavLink>
+            </p>
           </div>
         </div>
       </div>

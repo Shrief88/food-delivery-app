@@ -9,8 +9,8 @@ import authStateReducer from "./reducers/authStateSlice";
 import cartStateReducer from "./reducers/cartSlice";
 import { cartStateServices } from "./reducers/cartSlice";
 
-const listenMiddleware = createListenerMiddleware();
-listenMiddleware.startListening({
+const listenMiddlewareUpdate = createListenerMiddleware();
+listenMiddlewareUpdate.startListening({
   matcher: isAnyOf(
     cartStateServices.actions.addItem,
     cartStateServices.actions.removeAllItem,
@@ -24,6 +24,14 @@ listenMiddleware.startListening({
   },
 });
 
+const listenMiddlewareDelete = createListenerMiddleware();
+listenMiddlewareDelete.startListening({
+  matcher: isAnyOf(cartStateServices.actions.clearCart),
+  effect: (_action, _listenerApi) => {
+    localStorage.clear();
+  },
+});
+
 const store = configureStore({
   reducer: {
     activeNavItem: activeNavItemReducer,
@@ -31,7 +39,10 @@ const store = configureStore({
     cartState: cartStateReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(listenMiddleware.middleware),
+    getDefaultMiddleware().prepend(
+      listenMiddlewareUpdate.middleware,
+      listenMiddlewareDelete.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

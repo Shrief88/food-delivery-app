@@ -33,7 +33,7 @@ const Verify = () => {
       }
     };
     fetchData();
-  }, [code]);
+  }, [code, dispatch]);
   return (
     <>
       {!loading && (
