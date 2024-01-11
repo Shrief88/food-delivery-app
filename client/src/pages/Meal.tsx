@@ -115,12 +115,12 @@ const Meal = () => {
     <>
       {!loading && (
         <MaxWidthWrapper>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 items-center">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 items-center space-y-3">
             <div className="flex justify-center">
               <img src={meal.image} className="w-96" />
             </div>
             <div className="flex flex-col gap-4 items-center md:items-start md:justify-self-start">
-              <p className="text-4xl">{meal.name}</p>
+              <p className="text-4xl text-center">{meal.name}</p>
               <p className="text-primary text-2xl">
                 price: {formatPrice(meal.price)}
               </p>

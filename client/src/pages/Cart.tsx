@@ -33,7 +33,7 @@ const Cart = () => {
       };
       toast.loading("Redirecting...", { duration: Infinity });
       const response = (await axioswithToken.post("/order/checkout", bodyData)).data.data;
-      window.open(response, "_blank");
+      window.open(response.url, "_blank");
     } catch (err) {
       const error = err as AxiosError<unknown>;
       if ((error.response?.status as number) === 401) {

@@ -14,8 +14,18 @@ const CartItem = (props: ICartItem) => {
         <div className="relative aspect-square h-16 w-16 min-w-fit overflow-hidden rounded">
           <img src={props.image} />
         </div>
-        <div className="flex flex-col self-start">
-          <span className="text-sm font-medium line-clamp-1">{props.name}</span>
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="flex flex-col">
+            <span className="text-sm font-medium">
+              {props.name}
+            </span>
+            <span className="text-sm font-medium">
+              Quantity: {props.quantity}
+            </span>
+            <span className="font-medium text-sm">
+              Price: {formatPrice(props.price)}
+            </span>
+          </div>
 
           <div className="mt-2 text-sm text-muted-foreground">
             <button
@@ -39,12 +49,7 @@ const CartItem = (props: ICartItem) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col space-y-1 font-medium">
-        <span className="text-sm font-medium line-clamp-1">Quantity: {props.quantity}</span>
-        <span className="ml-auto line-clamp-1 text-sm">
-          {formatPrice(props.price)}
-        </span>
-      </div>
+      <div className="flex flex-col space-y-1 font-medium"></div>
     </div>
   );
 };

@@ -126,7 +126,7 @@ export const checkoutSession: RequestHandler = async (
       },
     });
 
-    res.status(200).json({ data: session });
+    res.status(200).json({ data: session.url });
   } catch (err) {
     next(err);
   }
