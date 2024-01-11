@@ -47,6 +47,7 @@ export interface IUser {
 
 export interface LoginResponse {
   accessToken: string;
+  refreshToken: string;
   user: IUser;
 }
 

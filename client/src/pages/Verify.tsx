@@ -9,10 +9,9 @@ import { useAppDispatch } from "@/stateStore";
 import { authStateServices } from "@/reducers/authStateSlice";
 import useCheckToken from "@/hooks/useCheckToken";
 
-
 const Verify = () => {
   useCheckToken();
-  
+
   const { code } = useParams();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -24,6 +23,7 @@ const Verify = () => {
         setLoading(true);
         const response = await verifyEmail(code as string);
         dispatch(authStateServices.actions.setAuthState(response));
+        localStorage.setItem("refreshToken", response.refreshToken);
         setSuccess(true);
       } catch (err) {
         setSuccess(false);

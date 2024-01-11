@@ -69,13 +69,11 @@ export const verifyEmail: RequestHandler = async (req, res, next) => {
 
     const sanitizedUser = sanitizeUser(user);
 
-    res
-      .status(200)
-      .cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
-      .json({ user: sanitizedUser, accessToken });
+    res.status(200).json({
+      user: sanitizedUser,
+      accessToken,
+      refreshToken,
+    });
   } catch (err) {
     next(err);
   }
@@ -106,41 +104,20 @@ export const login: RequestHandler = async (req, res, next) => {
 
     const sanitizedUser = sanitizeUser(user);
 
-    res
-      .status(200)
-      .cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      })
-      .json({ user: sanitizedUser, accessToken });
+    res.status(200).json({
+      user: sanitizedUser,
+      accessToken,
+      refreshToken,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-export const logout: RequestHandler = async (req, res, next) => {
+export const logout: RequestHandler = async (req: CustomRequest, res, next) => {
   try {
-    const cookies = req.cookies;
-    if (!cookies.refreshToken) return res.sendStatus(204);
-
-    const user = await UserModel.findOne({
-      refreshToken: cookies.refreshToken,
-    });
-
-    if (!user) {
-      res.clearCookie("refreshToken", {
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-      return res.sendStatus(204);
-    }
-
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    const user = await UserModel.findById(req.user._id);
+    if (!user) throw createHttpError(404, "User not found");
 
     user.refreshToken = undefined;
     await user.save();
@@ -152,31 +129,24 @@ export const logout: RequestHandler = async (req, res, next) => {
 
 export const refreshAccessToken: RequestHandler = async (req, res, next) => {
   try {
-    const cookies = req.cookies;
-    if (cookies.refreshToken) {
-      const user = await UserModel.findOne({
-        refreshToken: cookies.refreshToken,
-      });
-      if (user) {
-        jwt.verify(
-          cookies.refreshToken as string,
-          env.REFRESH_TOKEN_SECRET,
-          (err, decoded) => {
-            if (err) {
-              throw createHttpError(403, "Forbidden");
-            }
-            const sanitizedUser = sanitizeUser(user);
-            const accessToken = createAccessToken({ user_id: user._id });
-            res.status(200).json({ user: sanitizedUser, accessToken });
-          },
-        );
+    let token = "";
+    if (req.headers.authorization) {
+      token = req.headers.authorization.split(" ")[1];
+      if (token) {
+        const decoded = jwt.verify(token, env.REFRESH_TOKEN_SECRET);
+        const user = await UserModel.findById((decoded as jwtObject).user_id);
+        if (!user) throw createHttpError(404, "User not found");
+        const accessToken = createAccessToken({ user_id: user._id });
+        const sanitizedUser = sanitizeUser(user);
+        res.status(200).json({ accessToken, user: sanitizedUser });
       } else {
-        throw createHttpError(403, "Forbidden");
+        throw createHttpError(401, "Unauthorized");
       }
-    } else {
-      throw createHttpError(401, "Unauthorized, please login");
     }
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      next(createHttpError(403, "token expired"));
+    }
     next(err);
   }
 };
@@ -208,11 +178,6 @@ export const protectRoute: RequestHandler = async (
         // check if user is verified
         if (!user.verified) {
           throw createHttpError(401, "user is not verified");
-        }
-
-        const cookies = req.cookies;
-        if (user.refreshToken !== cookies.refreshToken) {
-          throw createHttpError(401, "user is not authenticated");
         }
 
         // verify if password has been changed after token was issued

@@ -29,7 +29,7 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route element={<RequireAuth />}>
                     <Route path="/cart" element={<Cart />} />
-                    <Route path="/success" element={<Success />} />
+                    <Route path="order/success" element={<Success />} />
                   </Route>
                 </Route>
               </Route>

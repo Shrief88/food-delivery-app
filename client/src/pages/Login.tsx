@@ -38,6 +38,7 @@ const Login = () => {
       const response = await login(data);
       toast.dismiss();
       dispatch(authStateServices.actions.setAuthState(response));
+      localStorage.setItem("refreshToken", response.refreshToken);
       toast.success("Logged in successfully");
       navigate(from, { replace: true });
     } catch (err) {

@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { Button } from "../ui/button";
-
-import { logout } from "@/api/auth";
 import { useAppDispatch } from "@/stateStore";
 import { authStateServices } from "@/reducers/authStateSlice";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import useAxiosToken from "@/hooks/useAxiosToken";
 
 interface UserAccountNavProps {
   username: string;
@@ -24,15 +23,18 @@ interface UserAccountNavProps {
 const UserAccountNav = (props: UserAccountNavProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const axiosClient = useAxiosToken();
+
   const logoutUser = async () => {
     try {
-      await logout();
+      await axiosClient.get("/auth/logout");
       dispatch(
         authStateServices.actions.setAuthState({
           user: null,
           accessToken: null,
         })
       );
+      localStorage.removeItem("refreshToken");
       toast.success("Logged out successfully");
       navigate("/");
     } catch (err) {
@@ -53,7 +55,7 @@ const UserAccountNav = (props: UserAccountNavProps) => {
         <NavLink to={"/cart"}>
           <DropdownMenuItem className="cursor-pointer">Cart</DropdownMenuItem>
         </NavLink>
-        <DropdownMenuItem onClick={logoutUser}>
+        <DropdownMenuItem onClick={logoutUser} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
