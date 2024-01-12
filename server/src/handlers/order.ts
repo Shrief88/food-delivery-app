@@ -113,11 +113,12 @@ export const checkoutSession: RequestHandler = async (
       },
     ];
 
+    console.log(env.CLIENT_URL + "/order/success");
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: `${env.CLIENT_URL}/order/success`,
-      cancel_url: `${env.CLIENT_URL}/cart`,
+      success_url: env.CLIENT_URL + "/order/success",
+      cancel_url: env.CLIENT_URL + "/cart",
       customer_email: req.user.email,
       client_reference_id: req.user._id.toString(),
       metadata: {
