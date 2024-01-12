@@ -5,7 +5,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 
 const Contact = () => {
   return (
-    <div className="bg-accent mt-14 ">
+    <div className="bg-accent mt-14">
       <MaxWidthWrapper className="px-5">
         <div className="flex flex-col gap-10 pb-4 pt-12">
           <div className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
