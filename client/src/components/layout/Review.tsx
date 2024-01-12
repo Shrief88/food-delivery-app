@@ -7,6 +7,7 @@ import useAxiosToken from "@/hooks/useAxiosToken";
 interface ReviewProps {
   review: IReview;
   userId: string;
+  deleteReview: (id: string) => void;
 }
 
 const formatName = (name: string) => {
@@ -18,18 +19,6 @@ const formatName = (name: string) => {
 };
 
 const Review = (props: ReviewProps) => {
-  const axiosClientWithToken = useAxiosToken();
-  
-  const deleteReview = async () => {
-    try {
-      await axiosClientWithToken.delete(`/review/${props.review._id}`);
-      window.location.reload();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-
   return (
     <div className="flex justify-between">
       <div className="flex flex-col gap-4">
@@ -56,7 +45,7 @@ const Review = (props: ReviewProps) => {
         <div className="flex">
           <div className="pl-2 sm:pl-4 md:flex-shrink-0 flex justify-center">
             <div className="w-8 h-8 bg-primary rounded-full flex justify-center items-center">
-              <button onClick={deleteReview}>
+              <button onClick={() => props.deleteReview(props.review._id as string)}>
                 <Trash2 className="text-white size-5" />
               </button>
             </div>

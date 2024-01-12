@@ -11,6 +11,7 @@ import PersisttentLogin from "./components/layout/PersisttentLogin";
 import Cart from "./pages/Cart";
 import RequireAuth from "./components/layout/RequireAuth";
 import Success from "./pages/Success";
+import Order from "./pages/Order";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                   <Route element={<RequireAuth />}>
                     <Route path="/cart" element={<Cart />} />
                     <Route path="order/success" element={<Success />} />
+                    <Route path="orders" element={<Order />} />
                   </Route>
                 </Route>
               </Route>

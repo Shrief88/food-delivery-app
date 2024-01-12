@@ -111,6 +111,13 @@ const Meal = () => {
       })
     );
   };
+
+  const deleteReview = async (id: string) => {
+    await axiosClientWithToken.delete(`/review/${id}`);
+    setReviews((prevArr) => prevArr.filter((review) => review._id !== id));
+    setHasUserReview(false);
+  };
+
   return (
     <>
       {!loading && (
@@ -200,7 +207,11 @@ const Meal = () => {
                 ) : (
                   reviews.map((review, index) => (
                     <div key={review._id}>
-                      <Review review={review} userId={user?._id as string} />
+                      <Review
+                        review={review}
+                        userId={user?._id as string}
+                        deleteReview={deleteReview}
+                      />
                       {index !== reviews.length - 1 && (
                         <Separator className="my-4" />
                       )}

@@ -56,6 +56,11 @@ const Home = () => {
               <NavLink
                 className={buttonVariants()}
                 to={"/cart"}
+                onClick={() =>
+                  dispatch(
+                    activeNavItemServices.actions.SetActiveNavItem("/cart")
+                  )
+                }
               >
                 Order now {<ChevronRight />}
               </NavLink>

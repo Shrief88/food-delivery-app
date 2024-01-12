@@ -5,7 +5,7 @@ import Contact from "./Contact"
 import Navbar from "../navbar/Navbar"
 const Layout = () => {
   return (
-    <div className="h-full flex flex-col">
+    <div className="flex flex-col min-h-full justify-between ">
       <Navbar />
       <Outlet />
       <Toaster />

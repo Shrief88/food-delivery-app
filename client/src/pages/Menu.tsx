@@ -54,18 +54,21 @@ const Menu = () => {
 
   const currentPage = parseInt(searchParms.get("page") as string) || 1;
 
-  const addToCart = useCallback((meal: IMeal) => {
-    dispatch(
-      cartStateServices.actions.addItem({
-        name: meal.name,
-        mealId: meal._id,
-        quantity: 1,
-        price: meal.price,
-        image: meal.image,
-        category: meal.category.name,
-      })
-    );
-  }, [dispatch]);
+  const addToCart = useCallback(
+    (meal: IMeal) => {
+      dispatch(
+        cartStateServices.actions.addItem({
+          name: meal.name,
+          mealId: meal._id,
+          quantity: 1,
+          price: meal.price,
+          image: meal.image,
+          category: meal.category.name,
+        })
+      );
+    },
+    [dispatch]
+  );
 
   // get all categories
   useEffect(() => {

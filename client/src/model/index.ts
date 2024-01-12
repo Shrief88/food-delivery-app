@@ -75,15 +75,7 @@ export interface IReview {
 
 export interface IOrder {
   _id: string;
-  cartItems: [
-    {
-      name: string;
-      mealId: string;
-      quantity: number;
-      price: number;
-      image: string;
-    }
-  ];
+  cartItems: ICartItem[];
   totalPrice: number;
   user: string;
   shippingPrice: number;

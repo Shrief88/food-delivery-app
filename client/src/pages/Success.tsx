@@ -1,6 +1,6 @@
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import { useTypedSelector } from "@/stateStore";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import useAxiosToken from "@/hooks/useAxiosToken";
 import { useEffect, useState } from "react";
 import { IOrder } from "@/model";
@@ -13,12 +13,17 @@ const Success = () => {
   const axiosClientWithToken = useAxiosToken();
   const [order, setOrder] = useState<IOrder | null>(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res: IOrder[] = (await axiosClientWithToken.get("/order")).data
           .data;
+        if (res.length === 0) {
+          navigate("/cart");
+          return;
+        }
         setOrder(res[res.length - 1]);
       } catch (err) {
         console.log(err);
@@ -27,7 +32,7 @@ const Success = () => {
 
     fetchData();
     dispatch(cartStateServices.actions.clearCart());
-  }, [axiosClientWithToken, dispatch]);
+  }, [axiosClientWithToken, dispatch, navigate]);
 
   return (
     <MaxWidthWrapper>
@@ -57,7 +62,9 @@ const Success = () => {
           <NavLink
             className="text-blue-700 text-sm hover:underline flex justify-end mt-4"
             to={"/menu"}
-            onClick={() => dispatch(activeNavItemServices.actions.SetActiveNavItem("/menu"))}
+            onClick={() =>
+              dispatch(activeNavItemServices.actions.SetActiveNavItem("/menu"))
+            }
           >
             Contiue shopping &rarr;
           </NavLink>

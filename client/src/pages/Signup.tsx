@@ -131,7 +131,7 @@ const Signup = () => {
                 </div>
 
                 <div className="flex flex-col items-start gap-2 py-2">
-                  <Label htmlFor="passwordConfirm">password Confirm</Label>
+                  <Label htmlFor="passwordConfirm">Password Confirm</Label>
                   <Input
                     {...register("passwordConfirm")}
                     className={cn({

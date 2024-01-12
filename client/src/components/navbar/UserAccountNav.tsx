@@ -55,6 +55,9 @@ const UserAccountNav = (props: UserAccountNavProps) => {
         <NavLink to={"/cart"}>
           <DropdownMenuItem className="cursor-pointer">Cart</DropdownMenuItem>
         </NavLink>
+        <NavLink to={"/orders"}>
+          <DropdownMenuItem className="cursor-pointer">Order</DropdownMenuItem>
+        </NavLink>
         <DropdownMenuItem onClick={logoutUser} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
