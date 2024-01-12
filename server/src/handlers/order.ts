@@ -194,7 +194,7 @@ export const webhookCheckout: RequestHandler = async (req, res, next) => {
 
       try {
         await sendEmail({
-          email: req.body.email,
+          email: session.customer_email ? session.customer_email : "N/A",
           subject: "Your Order reciept",
           content: `<h1>Thank you for your order</h1>
             <p>Your order has been placed successfully</p>
