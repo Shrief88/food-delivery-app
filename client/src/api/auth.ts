@@ -18,7 +18,7 @@ interface loginUser {
   password: string;
 }
 export const login = async (input: loginUser): Promise<LoginResponse> =>
-  (await axiosClient.post("/auth/login", input)).data;
+  (await axiosClient.post("/auth/login", input)).data; 
 
 // export const refreshAccessToken = async (): Promise<LoginResponse> =>
 //   (await axiosClient.get("/auth/refresh")).data;

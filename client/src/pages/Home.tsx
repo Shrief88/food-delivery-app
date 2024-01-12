@@ -55,12 +55,7 @@ const Home = () => {
             <div className="flex gap-10 mt-10 justify-center">
               <NavLink
                 className={buttonVariants()}
-                to={"/checkout"}
-                onClick={() =>
-                  dispatch(
-                    activeNavItemServices.actions.SetActiveNavItem("/checkout")
-                  )
-                }
+                to={"/cart"}
               >
                 Order now {<ChevronRight />}
               </NavLink>
@@ -71,10 +66,10 @@ const Home = () => {
                 )}
                 onClick={() =>
                   dispatch(
-                    activeNavItemServices.actions.SetActiveNavItem("/food")
+                    activeNavItemServices.actions.SetActiveNavItem("/menu")
                   )
                 }
-                to={"/food"}
+                to={"/menu"}
               >
                 See all foods
               </NavLink>
