@@ -22,6 +22,7 @@ import { webhookCheckout } from "./handlers/order";
 import { xssFilter } from "./middleware/xssCleanMiddleware";
 
 const app = express();
+app.set("trust proxy", 1);
 
 const corsOptions = {
   credentials: true,
@@ -36,7 +37,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(compression());
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  }),
+);
 
 if (env.isDevelopment) {
   app.use(morgan("dev"));
