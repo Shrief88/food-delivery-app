@@ -4,6 +4,10 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import compression from "compression";
+import rateLimit from "express-rate-limit";
+import ExpressMongoSanitize from "express-mongo-sanitize";
+import helmet from "helmet";
 
 import env from "./config/validateEnv";
 import errorMiddleware from "./middleware/errorMiddleware";
@@ -15,6 +19,7 @@ import reviewRouter from "./routes/review";
 import orderRouter from "./routes/order";
 import allowedOrgins from "./config/allowedOrgins";
 import { webhookCheckout } from "./handlers/order";
+import { xssFilter } from "./middleware/xssCleanMiddleware";
 
 const app = express();
 
@@ -30,6 +35,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(compression());
+app.use(helmet());
 
 if (env.isDevelopment) {
   app.use(morgan("dev"));
@@ -44,8 +51,26 @@ app.post(
 app.use(express.json());
 app.use(cookieParser());
 
+// Sanitize data against NoSQL query injection
+app.use(ExpressMongoSanitize());
+
+// Sanitize data against XSS attack
+app.use(xssFilter);
+
 // Set static folder for image
 app.use(express.static(path.join(__dirname, "..", "uploads")));
+
+// Set rate limit
+app.use(
+  "/api",
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    legacyHeaders: false,
+    standardHeaders: "draft-7",
+    message: "Too many requests created , please try again later",
+  }),
+);
 
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/meal", mealRouter);

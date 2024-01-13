@@ -12,7 +12,7 @@ const returnImageUrl = function <T extends documentWithImageUrl>(
 ): void {
   const document = doc as T;
   if (document.image) {
-    const imageUrl = `${env.BASE_URL}/${modelName}/${document.image}`;
+    const imageUrl = `${env.BASE_URL}:${env.PORT}/${modelName}/${document.image}`;
     document.image = imageUrl;
   }
 };
