@@ -114,6 +114,7 @@ const Meal = () => {
 
   const deleteReview = async (id: string) => {
     await axiosClientWithToken.delete(`/review/${id}`);
+    toast.success("Review has been deleted");
     setReviews((prevArr) => prevArr.filter((review) => review._id !== id));
     setHasUserReview(false);
   };

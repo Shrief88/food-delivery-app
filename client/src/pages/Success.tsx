@@ -55,7 +55,7 @@ const Success = () => {
           </p>
           <NavLink
             className="text-blue-700 text-sm hover:underline flex justify-end mt-4"
-            to={"/menu"}
+            to={"/orders"}
           >
             View all your orders &rarr;
           </NavLink>
