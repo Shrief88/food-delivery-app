@@ -15,7 +15,7 @@ const Navbar = () => {
   const user = useTypedSelector((state) => state.authState.user);
 
   return (
-    <div className="bg-white sticky z-50 top-0 inset-x-0 h-22">
+    <div className="bg-white sticky z-50 top-0 inset-x-0">
       <header className="relative bg-white">
         <MaxWidthWrapper>
           <div className="border-b border-green-200">
@@ -25,14 +25,13 @@ const Navbar = () => {
                   <NavLink to="/">
                     <img src={logo} alt="Tasty Treat" className="w-12" />
                   </NavLink>
-                  <p className="text-lg pt-1">Tasty Treat</p>
+                  <p className="text-md lg:text-lg pt-1">Tasty Treat</p>
                 </div>
                 <div className="hidden md:block md:self-stretch">
                   <NavItems />
                 </div>
               </div>
 
-              {/* TODO: ADD MOBILE NAVBAR */}
               <div className="flex items-center">
                 <div className="flex flex-1 items-center">
                   {user ? null : (
