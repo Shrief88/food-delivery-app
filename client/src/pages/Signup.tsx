@@ -8,16 +8,15 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import logo from "../assets/images/res-logo.png";
+import logo from "../assets/images/logo.svg";
 
 import { authSchema, TAuthSchema } from "../validators/signup";
 import { createUser } from "@/api/auth";
 import useCheckToken from "@/hooks/useCheckToken";
 
-
 const Signup = () => {
   useCheckToken();
-  
+
   const {
     register,
     handleSubmit,
@@ -68,7 +67,7 @@ const Signup = () => {
       <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
         <div className="mx-auto flex w-full flex-col justify-center sm:w-[350px]">
           <div className="flex flex-col items-center text-center space-y-4">
-            <img src={logo} className="h-20 w-20" />
+            <img src={logo} className="h-32 w-32" />
             <h1 className="text-2xl font-bold ">Create an account</h1>
             <NavLink
               className="text-blue-700 text-sm hover:underline"

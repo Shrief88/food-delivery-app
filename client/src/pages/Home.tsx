@@ -170,7 +170,7 @@ const Home = () => {
           </div>
           <div>
             <h1 className="text-4xl tracking-tight">
-              Why <span className="text-primary">Tasty Treat</span>
+              Why <span className="text-primary">Wasaly</span>
             </h1>
             <p className="text-sm sm:text-base text-muted-foreground mt-8">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum,

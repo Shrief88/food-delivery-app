@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Separator } from "../ui/separator";
 
 import MaxWidthWrapper from "../layout/MaxWidthWrapper";
-import logo from "../../assets/images/res-logo.png";
+import logo from "../../assets/images/logo.svg";
 import NavItems from "./NavItems";
 import { buttonVariants } from "../ui/button";
 import Cart from "../cart/Cart";
@@ -19,13 +19,13 @@ const Navbar = () => {
       <header className="relative bg-white">
         <MaxWidthWrapper>
           <div className="border-b border-green-200">
-            <div className="flex h-24 items-center justify-between">
+            <div className="flex py-4 items-center justify-between">
               <div className="flex items-center gap-32">
-                <div className="ml-4 flex lg:ml-0 pt-2 flex-col items-center">
+                <div className="ml-4 lg:ml-0 flex gap-3 items-center">
                   <NavLink to="/">
-                    <img src={logo} alt="Tasty Treat" className="w-12" />
+                    <img src={logo} alt="wasaly" className="w-20" />
                   </NavLink>
-                  <p className="text-md lg:text-lg pt-1">Tasty Treat</p>
+                  <p className="text-lg lg:text-xl">Wasaly</p>
                 </div>
                 <div className="hidden md:block md:self-stretch">
                   <NavItems />
@@ -41,16 +41,7 @@ const Navbar = () => {
                       customStyle={buttonVariants({ variant: "ghost" })}
                     />
                   )}
-                  <Separator orientation="vertical" />
-                  {user ? (
-                    <UserAccountNav username={user.name} />
-                  ) : (
-                    <NavItem
-                      name="Register"
-                      link="/signup"
-                      customStyle={buttonVariants({ variant: "ghost" })}
-                    />
-                  )}
+                  {user && <UserAccountNav username={user.name} />}
                   <Separator orientation="vertical" />
                   <Cart />
                 </div>

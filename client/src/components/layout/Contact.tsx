@@ -1,4 +1,4 @@
-import logo from "../../assets/images/res-logo.png";
+import logo from "../../assets/images/logo.svg";
 import { Facebook, Linkedin, Github } from "lucide-react";
 
 import MaxWidthWrapper from "./MaxWidthWrapper";
@@ -10,8 +10,11 @@ const Contact = () => {
         <div className="flex flex-col gap-10 pb-4 pt-12">
           <div className=" grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
             <div className="flex flex-col">
-              <img src={logo} className="h-16 w-16 mb-2" />
-              <p>Tasty Treat</p>
+              <div className="flex gap-3 items-center ">
+              <img src={logo} className="h-20 w-20 mb-2" />
+              <p className="text-xl">Wasaly</p>
+              </div>
+              
               <p className="text-muted-foreground text-sm pt-4">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Nesciunt pariatur accusamus

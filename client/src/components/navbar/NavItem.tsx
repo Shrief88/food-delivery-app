@@ -18,7 +18,7 @@ const NavItem = (props: NavItemProps) => {
     <NavLink
       to={props.link}
       className={cn(
-        "hover:text-primary",
+        "hover:text-primary ",
         props.customStyle,
         currentActiveNavItem === props.link && "text-primary"
       )}

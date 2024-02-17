@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import logo from "../assets/images/res-logo.png";
+import logo from "../assets/images/logo.svg";
 
 import { loginSchema, TLoginSchema } from "../validators/login";
 import { login } from "@/api/auth";
@@ -73,7 +73,7 @@ const Login = () => {
       <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
         <div className="mx-auto flex w-full flex-col justify-center sm:w-[350px]">
           <div className="flex flex-col items-center text-center space-y-4">
-            <img src={logo} className="h-20 w-20" />
+            <img src={logo} className="h-32 w-32" />
             <h1 className="text-2xl font-bold ">Log in to your account</h1>
             <NavLink
               className="text-blue-700 text-sm hover:underline"

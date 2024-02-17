@@ -45,7 +45,7 @@ const UserAccountNav = (props: UserAccountNavProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="overflow-visible">
-        <Button variant="ghost" size="lg">
+        <Button variant="ghost" size="sm">
           My Account
         </Button>
       </DropdownMenuTrigger>
