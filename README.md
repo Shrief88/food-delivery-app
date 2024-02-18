@@ -1,4 +1,4 @@
-# food-delivery-app
+# Wasaly
 
 An E-commerce Fullstack app using MERN stack technologies
 
