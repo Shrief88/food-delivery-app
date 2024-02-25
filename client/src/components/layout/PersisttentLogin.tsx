@@ -1,6 +1,7 @@
 import useRefreshToken from "@/hooks/useRefreshToken";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 const PersisttentLogin = () => {
   const refresh = useRefreshToken();
@@ -20,7 +21,17 @@ const PersisttentLogin = () => {
     verifyRefreshToken();
   }, []);
 
-  return <>{loading ? null : <Outlet />}</>;
+  return (
+    <>
+      {loading ? (
+        <div className="flex justify-center">
+          <Loader2 className="animate-spin" />
+        </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
+  );
 };
 
 export default PersisttentLogin;
